@@ -1,0 +1,19 @@
+{
+  "files.exclude": {
+    "node_modules": true,
+    "karma.conf.js": true,
+    "package-lock.json": true,
+    "tsconfig.json": true,
+    "angular.json": true,
+    // "package.json": true,
+    "tsconfig.app.json": true,
+    "tsconfig.spec.json": true,
+
+    ".browserslistrc": true,
+    ".editorconfig": true,
+    ".gitignore": true,
+    
+    // "README.md": true,
+    // "src": true,    
+  }
+}
