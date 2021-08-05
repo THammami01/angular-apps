@@ -1,0 +1,12 @@
+<label for="addItemInput">What would you like to do today?</label>
+
+<div ngClass="input-btn">
+  <input
+    id="addItemInput"
+    placeholder="Add a new item.."
+    [(ngModel)]="newDescription"
+    (keyup.enter)="handleAddItem()"
+  />
+
+  <button (click)="handleAddItem()">Add</button>
+</div>

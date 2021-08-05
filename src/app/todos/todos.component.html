@@ -1,0 +1,20 @@
+<div ngClass="todos">
+  <ng-template *ngIf="filteredItems.length; then showBlock; else notShowBlock">
+  </ng-template>
+
+  <ng-template #showBlock>
+    <p
+      ngClass="todo"
+      *ngFor="let item of filteredItems"
+      (click)="toggleDone(item)"
+    >
+      <span [ngClass]="item.done ? 'done' : ''">{{ item.description }}</span>
+      <span>{{ item.done ? "done" : "active" }}</span>
+      <span (click)="removeItem(item.id)">Remove</span>
+    </p>
+  </ng-template>
+
+  <ng-template #notShowBlock>
+    <p ngClass="todo no-items">No items found.</p>
+  </ng-template>
+</div>

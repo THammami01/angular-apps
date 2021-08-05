@@ -1,0 +1,26 @@
+.filter-todos {
+  display: flex;
+  border-radius: 0.5rem;
+  margin: 1.5rem 0;
+  gap: 0.5rem;
+
+  button {
+    flex: 1;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: none;
+    color: inherit;
+    background-color: inherit;
+    font-weight: bold;
+    font-size: 1rem;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+    }
+
+    &.selected {
+      border: 0.1rem solid #001d3d;
+    }
+  }
+}

@@ -1,0 +1,68 @@
+.todo {
+  border: 0.1rem solid #001d3d;
+  border-radius: 0.5rem;
+  padding: 0.75rem;
+  margin: 1rem 0;
+
+  &:hover {
+    cursor: pointer;
+    background-color: #001d3d;
+  }
+
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    display: inline-block;
+    text-transform: capitalize;
+
+    &:nth-child(1) {
+      flex: 8;
+      color: #ade8f4;
+
+      &.done {
+        text-decoration: line-through;
+      }
+    }
+
+    &:nth-child(2) {
+      flex: 2;
+      color: #003566;
+      border-left: 0.25rem solid #003566;
+      padding: 0 0.5rem;
+    }
+
+    &:nth-child(3) {
+      flex: 1;
+      color: #003566;
+      margin: -0.75rem;
+      padding: 0.75rem;
+      border-radius: 0.5rem;
+      transition: background 200ms;
+      &:hover {
+        background-color: #ade8f4;
+      }
+    }
+  }
+
+  &.no-items {
+    &:hover {
+      cursor: initial;
+      background-color: inherit;
+    }
+  }
+}
+
+@media screen and (max-width: 425px) {
+  .todo {
+    flex-direction: column;
+    gap: 0.75rem;
+    
+    span:nth-child(3) {
+      flex: 1;
+      color: #003566;
+      margin: 0;
+      padding: 0;
+    }
+  }
+}

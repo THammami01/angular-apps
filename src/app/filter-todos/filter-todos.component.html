@@ -1,0 +1,20 @@
+<div ngClass="filter-todos">
+  <button
+    [ngClass]="{ selected: filter === 'ALL' }"
+    (click)="handleFilterTodos('ALL')"
+  >
+    All
+  </button>
+  <button
+    [ngClass]="{ selected: filter === 'ACTIVE' }"
+    (click)="handleFilterTodos('ACTIVE')"
+  >
+    Active
+  </button>
+  <button
+    [ngClass]="{ selected: filter === 'DONE' }"
+    (click)="handleFilterTodos('DONE')"
+  >
+    Done
+  </button>
+</div>

@@ -1,0 +1,18 @@
+<nav>
+  <h1>TODOS</h1>
+</nav>
+
+<section ngClass="container">
+  <app-add-todo [addItem]="addItem.bind(this)"></app-add-todo>
+
+  <app-filter-todos
+    [filter]="filter"
+    [handleFilterTodos]="handleFilterTodos.bind(this)"
+  ></app-filter-todos>
+
+  <app-todos
+    [filteredItems]="filteredItems"
+    [toggleDone]="toggleDone.bind(this)"
+    [removeItem]="removeItem.bind(this)"
+  ></app-todos>
+</section>
