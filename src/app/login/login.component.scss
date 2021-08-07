@@ -1,0 +1,17 @@
+.login-form {
+  width: 40%;
+  min-width: 400px;
+  margin: 3rem auto;
+  padding: 3rem;
+  border: .1rem solid #B8DFD8;
+
+  > img {
+    width: 200px;
+    margin: 0 auto 2rem;
+    text-align: center;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+}
