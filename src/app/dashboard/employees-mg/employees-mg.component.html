@@ -1,0 +1,100 @@
+<mat-card ngClass="employees-mg container" @fadeSlideInOut>
+  <div ngClass="first-section">
+    <div ngClass="search">
+      <mat-form-field appearance="outline">
+        <mat-label>Rechercher un employé</mat-label>
+        <input
+          matInput
+          placeholder="Entrer un nom, matricule, téléphone.."
+          [(ngModel)]="filterKey"
+          autocomplete="off"
+        />
+      </mat-form-field>
+    </div>
+
+    <div ngClass="add">
+      <button
+        type="button"
+        mat-stroked-button
+        (click)="openDialog('add-employee')"
+      >
+        <mat-icon>person_add_alt_1</mat-icon>Ajouter un nouveau employé
+      </button>
+    </div>
+  </div>
+
+  <div ngClass="second-section">
+    <div
+      ngClass="spinner"
+      *ngIf="employees === undefined; else showEmployeesTable"
+    >
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <ng-template #showEmployeesTable>
+      <table mat-table [dataSource]="filteredEmployees || []">
+        <ng-container matColumnDef="registration">
+          <th mat-header-cell *matHeaderCellDef>Matricule</th>
+          <td mat-cell *matCellDef="let element">{{ element.registration }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef>Nom</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.firstname }} {{ element.lastname }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="position">
+          <th mat-header-cell *matHeaderCellDef>Grade</th>
+          <td mat-cell *matCellDef="let element">{{ element.position }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef>Téléphone</th>
+          <td mat-cell *matCellDef="let element">{{ element.phone }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef>Email</th>
+          <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              color="accent"
+              matTooltip="Mettre à jour"
+              matTooltipShowDelay="500"
+              matTooltipHideDelay="300"
+              (click)="openDialog('update-employee', element)"
+            >
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button
+              mat-icon-button
+              color="accent"
+              matTooltip="Supprimer"
+              matTooltipShowDelay="500"
+              matTooltipHideDelay="300"
+              (click)="openDialog('delete-employee', element)"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-list *ngIf="filteredEmployees?.length === 0">
+        <mat-list-item ngClass="mat-cell" style="color: gray"
+          >Aucun employé trouvé.</mat-list-item
+        >
+      </mat-list>
+    </ng-template>
+  </div>
+</mat-card>

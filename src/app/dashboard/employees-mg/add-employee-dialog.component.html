@@ -1,0 +1,83 @@
+<div style="width: 400px">
+  <h3 style="margin-bottom: 1.5rem">Ajout d'un nouveau employé</h3>
+
+  <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
+    <mat-form-field appearance="standard" style="flex: 1">
+      <input
+        matInput
+        placeholder="Prénom"
+        autocomplete="off"
+        [(ngModel)]="employee.firstname"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="flex: 1">
+      <input
+        matInput
+        placeholder="Nom de la famille"
+        autocomplete="off"
+        [(ngModel)]="employee.lastname"
+      />
+    </mat-form-field>
+  </div>
+
+  <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
+    <mat-form-field appearance="standard" style="width: 80%">
+      <input
+        matInput
+        placeholder="Matricule"
+        autocomplete="off"
+        [(ngModel)]="employee.registration"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 80%">
+      <input
+        matInput
+        placeholder="Grade"
+        autocomplete="off"
+        [(ngModel)]="employee.position"
+      />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="standard" style="width: 60%">
+    <span matPrefix>+216&nbsp;&nbsp;</span>
+    <input
+      matInput
+      placeholder="Téléphone"
+      autocomplete="off"
+      [(ngModel)]="employee.phone"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" style="width: 80%">
+    <input
+      matInput
+      placeholder="Email"
+      autocomplete="off"
+      [(ngModel)]="employee.email"
+    />
+  </mat-form-field>
+
+  <mat-form-field appearance="standard" style="width: 80%">
+    <input
+      matInput
+      placeholder="Mot de passe"
+      autocomplete="off"
+      [(ngModel)]="employee.password"
+    />
+  </mat-form-field>
+
+  <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem">
+    <button
+      mat-flat-button
+      style="padding: 0.25rem 1.5rem; color: white; background-color: #3f51b5"
+      (click)="handleClick()"
+      matDialogClose
+    >
+      Ajouter
+    </button>
+    <button mat-flat-button style="padding: 0.25rem 1.5rem" matDialogClose>Annuler</button>
+  </div>
+</div>
