@@ -11,14 +11,14 @@ export interface Employee {
   position: string;
   phone: string;
   email: string;
-  password: string;
+  passkey: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class EmployeeService {
-  employeesUrl = 'http://localhost:3000/employees';
+  employeesUrl = 'http://localhost:4000/employees';
 
   constructor(private http: HttpClient) {}
 

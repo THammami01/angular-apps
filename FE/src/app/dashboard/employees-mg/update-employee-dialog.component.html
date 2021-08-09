@@ -1,5 +1,5 @@
 <div style="width: 400px">
-  <h3 style="margin-bottom: 1.5rem">Ajout d'un nouveau employé</h3>
+  <h3 style="margin-bottom: 1.5rem">Modification des details d'un employé</h3>
 
   <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
     <mat-form-field appearance="standard" style="flex: 1">
@@ -65,7 +65,7 @@
       matInput
       placeholder="Mot de passe"
       autocomplete="off"
-      [(ngModel)]="employee.password"
+      [(ngModel)]="employee.passkey"
     />
   </mat-form-field>
 
@@ -76,8 +76,10 @@
       (click)="handleClick()"
       matDialogClose
     >
-      Ajouter
+      Modifier
     </button>
-    <button mat-flat-button style="padding: 0.25rem 1.5rem" matDialogClose>Annuler</button>
+    <button mat-flat-button style="padding: 0.25rem 1.5rem" matDialogClose>
+      Annuler
+    </button>
   </div>
 </div>

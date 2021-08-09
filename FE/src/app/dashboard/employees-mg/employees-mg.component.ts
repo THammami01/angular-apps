@@ -33,7 +33,7 @@ export class AddEmployeeDialog {
     position: '',
     phone: '',
     email: '',
-    password: '',
+    passkey: '',
   };
 
   constructor(
@@ -43,12 +43,12 @@ export class AddEmployeeDialog {
   ) {}
 
   handleClick() {
-    this.employeeService.addEmployee(this.employee).subscribe(() => {
-      this.data.fetchEmployees();
-      this._snackBar.open('Employé ajouté avec succés.', 'OK', {
-        duration: 8000,
-      });
+    this.employeeService.addEmployee(this.employee).subscribe(() => {});
+    this._snackBar.open('Employé ajouté avec succès.', 'OK', {
+      duration: 8000,
     });
+    this.data.fetchEmployees();
+    this.data.fetchEmployees();
   }
 }
 // ==================================
@@ -76,12 +76,12 @@ export class UpdateEmployeeDialog {
   }
 
   handleClick() {
-    this.employeeService.updateEmployee(this.employee).subscribe(() => {
-      this.data.fetchEmployees();
-      this._snackBar.open('Employé mis à jour avec succés.', 'OK', {
-        duration: 8000,
-      });
+    this.employeeService.updateEmployee(this.employee).subscribe(() => {});
+    this._snackBar.open('Employé mis à jour avec succès.', 'OK', {
+      duration: 8000,
     });
+    this.data.fetchEmployees();
+    this.data.fetchEmployees();
   }
 }
 // ==================================
@@ -108,12 +108,12 @@ export class DeleteEmployeeDialog {
 
   handleClick() {
     // @ts-ignore
-    this.employeeService.deleteEmployee(this.employee.id).subscribe(() => {
-      this.data.fetchEmployees();
-      this._snackBar.open('Employé supprimé avec succés.', 'OK', {
-        duration: 8000,
-      });
+    this.employeeService.deleteEmployee(this.employee.id).subscribe(() => {});
+    this._snackBar.open('Employé supprimé avec succés.', 'OK', {
+      duration: 8000,
     });
+    this.data.fetchEmployees();
+    this.data.fetchEmployees();
   }
 }
 // ==================================
