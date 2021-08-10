@@ -22,7 +22,10 @@ import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
@@ -36,6 +39,8 @@ import {
   DeleteEmployeeDialog,
 } from './dashboard/employees-mg/employees-mg.component';
 import { LeavesMgComponent } from './dashboard/leaves-mg/leaves-mg.component';
+import { SubmitNewLeaveComponent } from './dashboard/submit-new-leave/submit-new-leave.component';
+import { ViewAllLeavesComponent } from './dashboard/view-all-leaves/view-all-leaves.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +53,8 @@ import { LeavesMgComponent } from './dashboard/leaves-mg/leaves-mg.component';
     AddEmployeeDialog,
     UpdateEmployeeDialog,
     DeleteEmployeeDialog,
+    SubmitNewLeaveComponent,
+    ViewAllLeavesComponent,
   ],
   imports: [
     BrowserModule,
@@ -73,8 +80,11 @@ import { LeavesMgComponent } from './dashboard/leaves-mg/leaves-mg.component';
     MatProgressSpinnerModule,
     CommonModule,
     MatSnackBarModule,
+    MatStepperModule,
+    MatSelectModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
-  providers: [],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

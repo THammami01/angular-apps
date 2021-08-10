@@ -17,6 +17,8 @@ export interface EmployeeDialogData {
   fetchEmployees: () => void;
 }
 
+// TODO: FIX DEFAULT SELECT NOT WORKING IN ADD AND UPDATE DIALOGS  
+
 // ==================================
 // ====== ADD EMPLOYEE DIALOAG ======
 // ==================================
@@ -32,9 +34,11 @@ export class AddEmployeeDialog {
     lastname: '',
     position: '',
     phone: '',
+    gender: '',
     email: '',
     passkey: '',
   };
+  hidePwd = true;
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -65,6 +69,7 @@ export class AddEmployeeDialog {
 })
 export class UpdateEmployeeDialog {
   employee!: Employee;
+  hidePwd = true;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: EmployeeDialogData,
@@ -73,6 +78,7 @@ export class UpdateEmployeeDialog {
   ) {
     // @ts-ignore
     this.employee = { ...this.data.employee };
+    console.log(flattenObject(this.employee));
   }
 
   handleClick() {

@@ -11,6 +11,7 @@ export interface Employee {
   position: string;
   phone: string;
   email: string;
+  gender: string;
   passkey: string;
 }
 
@@ -23,7 +24,8 @@ export class EmployeeService {
   constructor(private http: HttpClient) {}
 
   handleError(err: HttpErrorResponse) {
-    return throwError('An error occured. Please try again later.');
+    const errMsg = 'An error occured. Please try again.';
+    return throwError(errMsg);
   }
 
   getEmployees(): Observable<Employee[]> {

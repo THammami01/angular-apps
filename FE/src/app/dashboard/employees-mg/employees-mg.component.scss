@@ -45,6 +45,11 @@
     table {
       width: 100%;
     }
+
+    .mat-header-cell,
+    .mat-cell {
+      padding-right: .5rem;
+    }
   }
 }
 
