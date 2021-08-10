@@ -22,6 +22,33 @@
   </div>
 
   <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
+    <mat-form-field appearance="standard" style="width: 50%">
+      <span matPrefix>+216&nbsp;&nbsp;</span>
+      <input
+        matInput
+        placeholder="Téléphone"
+        autocomplete="off"
+        [(ngModel)]="employee.phone"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 50%">
+      <mat-select
+        formControlName="firstCtrl"
+        autocomplete="off"
+        [placeholder]="employee.gender"
+        [(value)]="employee.gender"
+      >
+        <mat-option
+          *ngFor="let gender of ['Masculin', 'Féminin']"
+          [value]="gender"
+          >{{ gender }}</mat-option
+        >
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
     <mat-form-field appearance="standard" style="width: 80%">
       <input
         matInput
@@ -41,16 +68,6 @@
     </mat-form-field>
   </div>
 
-  <mat-form-field appearance="standard" style="width: 60%">
-    <span matPrefix>+216&nbsp;&nbsp;</span>
-    <input
-      matInput
-      placeholder="Téléphone"
-      autocomplete="off"
-      [(ngModel)]="employee.phone"
-    />
-  </mat-form-field>
-
   <mat-form-field appearance="standard" style="width: 80%">
     <input
       matInput
@@ -65,8 +82,20 @@
       matInput
       placeholder="Mot de passe"
       autocomplete="off"
+      [type]="hidePwd ? 'password' : 'text'"
       [(ngModel)]="employee.passkey"
     />
+    <button
+      mat-icon-button
+      matSuffix
+      ngClass="show-pwd-icon"
+      (click)="hidePwd = !hidePwd"
+      [attr.aria-label]="'Hide password'"
+      [attr.aria-pressed]="hidePwd"
+      style="color: grey"
+    >
+      <mat-icon>{{ hidePwd ? "visibility_off" : "visibility" }}</mat-icon>
+    </button>
   </mat-form-field>
 
   <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem">

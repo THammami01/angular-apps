@@ -28,7 +28,7 @@
         ngClass="logout-btn"
         mat-stroked-button
         color="warn"
-        routerLink="/login"
+        (click)="handleLogout()"
       >
         <mat-icon>logout</mat-icon> Se déconnecter
       </button>

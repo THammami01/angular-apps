@@ -5,7 +5,7 @@ import { fadeSlideInOutAnimation } from './../../__utils__/animations';
   selector: 'app-leaves-mg',
   templateUrl: './leaves-mg.component.html',
   styleUrls: ['./leaves-mg.component.scss'],
-  animations: [fadeSlideInOutAnimation]
+  animations: [fadeSlideInOutAnimation],
 })
 export class LeavesMgComponent implements OnInit {
   constructor() {}

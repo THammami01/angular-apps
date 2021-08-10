@@ -3,11 +3,11 @@
     <img src="assets/imgs/tuntel.png" alt="TunTel Logo" />
 
     <mat-form-field appearance="outline">
-      <mat-label>Identifiant</mat-label>
+      <mat-label>Matricule</mat-label>
       <input
         matInput
-        placeholder="Entrer votre identifiant.."
-        [(ngModel)]="identifier"
+        placeholder="Entrer votre matricule.."
+        [(ngModel)]="loginData.registration"
         autocomplete="off"
         required
       />
@@ -19,7 +19,7 @@
       <input
         matInput
         placeholder="Entrer votre mot de passe.."
-        [(ngModel)]="password"
+        [(ngModel)]="loginData.passkey"
         [type]="hidePwd ? 'password' : 'text'"
         autocomplete="off"
         required

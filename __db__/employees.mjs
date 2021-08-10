@@ -1,11 +1,10 @@
 import { db } from "../index.mjs";
 
 export const getEmployees = () => {
-  const sql = `SELECT * FROM employee`;
+  const sql = `SELECT * FROM Employee;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, (err, results) => {
-      console.log(results);
       if (err) return reject(err);
       return resolve(results);
     });
@@ -28,31 +27,18 @@ export const addEmployee = (employee) => {
 
 export const updateEmployee = (
   id,
-  { registration, firstname, lastname, position, phone, email, passkey }
+  { registration, firstname, lastname, position, phone, gender, email, passkey }
 ) => {
-  console.log("----");
-  console.log(
-    id,
-    registration,
-    firstname,
-    lastname,
-    position,
-    phone,
-    email,
-    passkey
-  );
-  console.log("----");
-
   const sql = `
     UPDATE Employee
-    SET registration = ?, firstname = ?, lastname = ?, position = ?, phone = ?, email = ?, passkey = ?
+    SET registration = ?, firstname = ?, lastname = ?, position = ?, phone = ?, gender = ?, email = ?, passkey = ?
     WHERE id = ?;
   `;
 
   return new Promise((resolve, reject) => {
     db.query(
       sql,
-      [registration, firstname, lastname, position, phone, email, passkey, id],
+      [registration, firstname, lastname, position, phone, gender, email, passkey, id],
       (err) => {
         if (err) return reject(err);
         return resolve();
@@ -62,7 +48,7 @@ export const updateEmployee = (
 };
 
 export const deleteEmployee = (id) => {
-  const sql = `DELETE FROM Employee WHERE id = ?`;
+  const sql = `DELETE FROM Employee WHERE id = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, [id], (err) => {

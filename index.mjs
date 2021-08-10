@@ -1,5 +1,4 @@
 import express from "express";
-import jwt from "jsonwebtoken";
 import cors from "cors";
 import mysql from "mysql";
 import dotenv from "dotenv";
@@ -8,12 +7,17 @@ import dotenv from "dotenv";
 // import { v4 as uuidv4 } from "uuid";
 
 import employees from "./__routers__/employees.mjs";
+import auth from "./__routers__/auth.mjs";
+import demands from "./__routers__/demands.mjs";
 
 const app = express();
 dotenv.config();
 app.use(express.json());
 app.use(cors());
+
+app.use("/auth", auth);
 app.use("/employees", employees);
+app.use("/demands", demands);
 
 export const db = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -29,7 +33,7 @@ app.get("/", (req, res) => {
     .json({ status: "Running", message: "App is running succussfully." });
 });
 
-export const auth = (req, res, next) => {
+export const authMiddleware = (req, res, next) => {
   const token = req.headers.authorization;
   if (token == null) return res.sendStatus(401); // Unauthorized
 
