@@ -2,6 +2,7 @@ import express from "express";
 import {
   getDemands,
   addDemand,
+  validateDemand,
   updateDemand,
   deleteDemand,
 } from "../__db__/demands.mjs";
@@ -18,33 +19,40 @@ router.get("/", (req, res) => {
     });
 });
 
+router.get("/employee/:employeeId", (req, res) => {
+  const employeeId = req.params.employeeId;
+  
+  getDemands(employeeId)
+    .then((demands) => {
+      res.status(200).send(demands);
+    })
+    .catch((err) => {
+      res.sendStatus(500);
+    });
+});
+
 router.post("/", (req, res) => {
   const demand = req.body;
   delete demand.id;
 
   addDemand(demand)
     .then((data) => {
-      console.log(data);
-      res.sendStatus(201);
+      res.status(201).send({ statusCode: 201 });
     })
     .catch((err) => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
 
-router.patch("/:id", (req, res) => {
+router.patch("/validate/:id", (req, res) => {
   const id = req.params.id;
-  const demand = req.body;
-  delete demand.id;
+  const demandStatus = req.body.demandStatus;
 
-  updateDemand(id, demand)
+  validateDemand(id, demandStatus)
     .then((data) => {
-      console.log(data);
-      res.sendStatus(200);
+      res.send({ statusCode: 200 });
     })
     .catch((err) => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
@@ -54,12 +62,11 @@ router.delete("/:id", (req, res) => {
 
   deleteDemand(id)
     .then((data) => {
-      console.log(data);
-      res.sendStatus(200);
+      res.status(200).send({ statusCode: 200 });
     })
     .catch((err) => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
+
 export default router;

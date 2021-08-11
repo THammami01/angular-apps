@@ -11,7 +11,7 @@ export interface SideNavItem {
   link: string;
 }
 
-// TODO: SHOW NAME ON TOP RIGHT ALONG WITH AVATAR
+// TODO: SHOW EMPLOYEE'S NAME ON TOP RIGHT ALONG WITH THEIR POSITION AND AVATAR
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -47,13 +47,13 @@ export class DashboardComponent implements OnInit {
         {
           idx: 0,
           shortTitle: 'Soumession',
-          title: "Soumession d'un congé",
+          title: "Soumession d'une demande de congé",
           link: 'submit-new-leave',
         },
         {
           idx: 1,
           shortTitle: 'Voir Tous',
-          title: 'Affichage de tous les congés soumis',
+          title: 'Affichage de toutes les demandes',
           link: 'view-all-leaves',
         },
       ];

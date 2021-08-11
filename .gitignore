@@ -1,7 +1,9 @@
 # compiled output
-/FE/dist
+# /FE/dist
 
 # dependencies
 /node_modules
 /FE/node_modules
+.local.env
+.remote.env
 .env

@@ -14,8 +14,8 @@ import jwt_decode from 'jwt-decode';
 })
 export class LoginComponent implements OnInit {
   loginData: LoginData = {
-    registration: '1002',
-    passkey: 'Hello123',
+    registration: '',
+    passkey: '',
   };
   hidePwd = true;
 

@@ -1,7 +1,7 @@
 import { db } from "../index.mjs";
 
 export const getEmployees = () => {
-  const sql = `SELECT * FROM Employee;`;
+  const sql = `SELECT * FROM Employee ORDER BY signup_date DESC;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, (err, results) => {

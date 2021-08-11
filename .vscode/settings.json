@@ -10,16 +10,22 @@
     "FE/tsconfig.spec.json": true,
     "FE/.browserslistrc": true,
     "FE/.editorconfig": true,
-    // "FE/package.json": true,
+    "FE/package.json": true,
     // "FE/README.md": true,
-    
+
     "FE/src/environments": true,
-    "FE/src/favicon.ico": true,
+    // "FE/src/favicon.ico": true,
     "FE/src/polyfills.ts": true,
     "FE/src/test.ts": true,
-    
-    "node_modules": true,
-    "package-lock.json": true,
-    ".gitignore": true,
+
+    // "node_modules": true,
+    // "package-lock.json": true,
+    // ".gitignore": true,
+    // "db.sql": true,
+    // ".env": true,
+    // ".example.env": true,
+    // "Notes.md": true,
+    // "README.md": true,
+    // "package.json": true,
   }
 }

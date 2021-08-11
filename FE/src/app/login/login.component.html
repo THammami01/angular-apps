@@ -8,6 +8,7 @@
         matInput
         placeholder="Entrer votre matricule.."
         [(ngModel)]="loginData.registration"
+        (keyup.enter)="handleLogin()"
         autocomplete="off"
         required
       />
@@ -21,6 +22,7 @@
         placeholder="Entrer votre mot de passe.."
         [(ngModel)]="loginData.passkey"
         [type]="hidePwd ? 'password' : 'text'"
+        (keyup.enter)="handleLogin()"
         autocomplete="off"
         required
       />

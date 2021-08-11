@@ -1,10 +1,10 @@
+import path from "path";
+import process from "process";
 import express from "express";
-import cors from "cors";
 import mysql from "mysql";
+import cors from "cors";
 import dotenv from "dotenv";
-// import crypto from "crypto";
-// import axios from "axios";
-// import { v4 as uuidv4 } from "uuid";
+// import favicon from "serve-favicon";
 
 import employees from "./__routers__/employees.mjs";
 import auth from "./__routers__/auth.mjs";
@@ -15,6 +15,9 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
+app.use(express.static("FE/dist/angular-app"));
+app.set("view engine", "pug");
+
 app.use("/auth", auth);
 app.use("/employees", employees);
 app.use("/demands", demands);
@@ -24,13 +27,11 @@ export const db = mysql.createConnection({
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
-  // port: process.env.DB_PORT,
+  port: process.env.DB_PORT,
 });
 
 app.get("/", (req, res) => {
-  res
-    .status(200)
-    .json({ status: "Running", message: "App is running succussfully." });
+  res.sendFile("index.html", { root: path.resolve(path.dirname("")) });
 });
 
 export const authMiddleware = (req, res, next) => {
@@ -43,6 +44,15 @@ export const authMiddleware = (req, res, next) => {
     next();
   });
 };
+
+app.get("/*", function (req, res) {
+  res.sendFile(
+    path.join(path.resolve(path.dirname("")), "FE/dist/angular-app/index.html"),
+    (err) => {
+      if (err) res.status(500).send(err);
+    }
+  );
+});
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {

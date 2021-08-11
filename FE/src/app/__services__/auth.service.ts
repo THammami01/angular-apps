@@ -17,7 +17,8 @@ export interface LoginResponse {
   providedIn: 'root',
 })
 export class AuthService {
-  employeesUrl = 'http://localhost:4000/auth';
+  // employeesUrl = 'http://localhost:4000/auth';
+  employeesUrl = '/auth';
 
   constructor(private http: HttpClient) {}
 

@@ -24,11 +24,9 @@ router.post("/", (req, res) => {
 
   addEmployee(employee)
     .then((data) => {
-      console.log(data);
-      res.sendStatus(201);
+      res.status(201).send({statusCode: 201});
     })
     .catch((err) => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
@@ -40,11 +38,9 @@ router.patch("/:id", (req, res) => {
 
   updateEmployee(id, employee)
     .then((data) => {
-      console.log(data);
-      res.sendStatus(200);
+      res.send(200).send({statusCode: 200});
     })
     .catch((err) => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
@@ -54,11 +50,9 @@ router.delete("/:id", (req, res) => {
 
   deleteEmployee(id)
     .then((data) => {
-      console.log(data);
-      res.sendStatus(200);
+      res.send(200).send({statusCode: 200});
     })
     .catch((err) => {
-      console.log(err);
       res.sendStatus(500);
     });
 });
