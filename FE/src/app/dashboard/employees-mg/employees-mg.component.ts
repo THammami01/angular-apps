@@ -17,7 +17,7 @@ export interface EmployeeDialogData {
   fetchEmployees: () => void;
 }
 
-// TODO: FIX DEFAULT SELECT NOT WORKING IN ADD AND UPDATE DIALOGS  
+// TODO: FIX DEFAULT SELECT NOT WORKING IN ADD AND UPDATE DIALOGS
 
 // ==================================
 // ====== ADD EMPLOYEE DIALOAG ======
@@ -43,6 +43,7 @@ export class AddEmployeeDialog {
   constructor(
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: EmployeeDialogData,
+    private dialogRef: MatDialogRef<UpdateEmployeeDialog>,
     private employeeService: EmployeeService
   ) {}
 
@@ -51,6 +52,8 @@ export class AddEmployeeDialog {
     this._snackBar.open('Employé ajouté avec succès.', 'OK', {
       duration: 8000,
     });
+
+    this.dialogRef.close();
     this.data.fetchEmployees();
     this.data.fetchEmployees();
   }
@@ -74,11 +77,11 @@ export class UpdateEmployeeDialog {
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: EmployeeDialogData,
     private employeeService: EmployeeService,
+    private dialogRef: MatDialogRef<UpdateEmployeeDialog>,
     private _snackBar: MatSnackBar
   ) {
     // @ts-ignore
     this.employee = { ...this.data.employee };
-    console.log(flattenObject(this.employee));
   }
 
   handleClick() {
@@ -86,6 +89,8 @@ export class UpdateEmployeeDialog {
     this._snackBar.open('Employé mis à jour avec succès.', 'OK', {
       duration: 8000,
     });
+
+    this.dialogRef.close();
     this.data.fetchEmployees();
     this.data.fetchEmployees();
   }
@@ -118,6 +123,7 @@ export class DeleteEmployeeDialog {
     this._snackBar.open('Employé supprimé avec succés.', 'OK', {
       duration: 8000,
     });
+
     this.data.fetchEmployees();
     this.data.fetchEmployees();
   }
@@ -195,9 +201,5 @@ export class EmployeesMgComponent implements OnInit {
       default:
         dialogRef = null;
     }
-
-    // dialogRef?.afterClosed().subscribe((result) => {
-    //   console.log(`Dialog result: ${result}`);
-    // });
   }
 }

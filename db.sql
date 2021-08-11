@@ -6,17 +6,16 @@ USE SGC;
 
 SHOW TABLES;
 
-CREATE TABLE employee (
+CREATE TABLE Employee (
 	id INT PRIMARY KEY AUTO_INCREMENT,
 	registration VARCHAR(255) NOT NULL UNIQUE,
 	firstname VARCHAR(255) NOT NULL,
 	lastname VARCHAR(255) NOT NULL,
 	position VARCHAR(255) NOT NULL,
 	phone VARCHAR(255) NOT NULL,
-    gender VARCHAR(255) NOT NULL,
+	gender VARCHAR(255) NOT NULL,
 	email VARCHAR(255) NOT NULL,
 	passkey VARCHAR(255) NOT NULL,
-  -- password is a reserved word
 	signup_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -48,7 +47,7 @@ CREATE TABLE Demand (
 	endDate VARCHAR(255) NOT NULL,
 	demandStatus VARCHAR(255) NOT NULL DEFAULT "En Attente",
 	submitDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updateDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+	updateDate TIMESTAMP
 );
 
 DESC Demand;
@@ -56,5 +55,9 @@ SELECT * FROM Demand;
 DELETE FROM Demand;
 DROP TABLE Demand;
 
-INSERT INTO Demand(id, employeeId, leaveType, startDate, endDate)
-VALUES(4, 1, "Hajj", "1626390000000", "1637276400000");
+INSERT INTO Demand(employeeId, leaveType, startDate, endDate)
+VALUES(1, "Maladie", "1626390000000", "1637276400000");
+
+SELECT D.*, CONCAT(E.firstname, " ", E.lastname) AS employeeName
+FROM Demand AS D, Employee AS E
+WHERE D.employeeId = E.id;

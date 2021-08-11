@@ -27,6 +27,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { AppRoutingModule } from './app-routing.module';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
@@ -84,6 +86,8 @@ import { ViewAllLeavesComponent } from './dashboard/view-all-leaves/view-all-lea
     MatSelectModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMenuModule,
+    MatButtonToggleModule,
   ],
   bootstrap: [AppComponent],
 })

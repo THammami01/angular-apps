@@ -21,8 +21,6 @@ router.post("/login", (req, res) => {
 
   getEmployeeByRegistration(registration, passkey)
     .then((employeeArr) => {
-      console.log(employeeArr);
-
       if (employeeArr.length != 1) res.send({ accessToken: "NO_ACCESS_TOKEN" });
       else {
         delete employeeArr[0].passkey;
@@ -33,7 +31,7 @@ router.post("/login", (req, res) => {
 });
 
 router.delete("/logout", (req, res) => {
-  res.send("Log Out");
+  res.send({ statusCode: 200 });
 });
 
 export default router;

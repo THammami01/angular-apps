@@ -66,9 +66,7 @@ export class SubmitNewLeaveComponent implements OnInit {
     this._adapter.setLocale('fr');
     // this.firstFormGroup.controls.leaveType.setValue('Annuel');
 
-    this.leaveService.getDemands().subscribe((res) => {
-      console.log(res);
-    });
+    this.leaveService.getDemands().subscribe((res) => {});
   }
 
   handleDemandSubmit(stepper: any) {
@@ -86,6 +84,7 @@ export class SubmitNewLeaveComponent implements OnInit {
       duration: 16000,
     });
 
-    stepper.reset();
+    stepper.previous();
+    stepper.previous();
   }
 }
