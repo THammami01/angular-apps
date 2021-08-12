@@ -24,7 +24,7 @@ interface DemandToValidate {
 })
 export class LeaveService {
   // demandsUrl = 'http://localhost:4000/demands';
-  demandsUrl = '/demands';
+  demandsUrl = 'https://tuntel-sgc-res.herokuapp.com/demands';
 
   constructor(private http: HttpClient) {}
 

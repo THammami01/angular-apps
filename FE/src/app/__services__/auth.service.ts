@@ -18,7 +18,7 @@ export interface LoginResponse {
 })
 export class AuthService {
   // employeesUrl = 'http://localhost:4000/auth';
-  employeesUrl = '/auth';
+  employeesUrl = 'https://tuntel-sgc-res.herokuapp.com/auth';
 
   constructor(private http: HttpClient) {}
 

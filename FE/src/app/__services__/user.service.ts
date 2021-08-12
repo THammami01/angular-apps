@@ -20,7 +20,7 @@ export interface Employee {
 })
 export class EmployeeService {
   // employeesUrl = 'http://localhost:4000/employees';
-  employeesUrl = '/employees';
+  employeesUrl = 'https://tuntel-sgc-res.herokuapp.com/employees';
 
   constructor(private http: HttpClient) {}
 
