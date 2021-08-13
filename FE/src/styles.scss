@@ -1,0 +1,93 @@
+:root {
+  --color1: #b8dfd8;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  // font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica,
+  //   Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  user-select: none;
+  scroll-behavior: smooth;
+  min-height: 550px;
+  background-image: url("assets/imgs/absurdity.png");
+  // overflow: scroll; /* Show scrollbars */
+}
+
+// body::-webkit-scrollbar {
+//   width: 6px;
+//   height: 0;
+// }
+
+// body::-webkit-scrollbar-track {
+//   background-color: #106ebe66;
+// }
+
+// body::-webkit-scrollbar-thumb {
+//   box-shadow: inset 0 0 6px #888;
+//   background-color: #106ebe;
+//   border-radius: 5rem;
+// }
+
+
+body::-webkit-scrollbar {
+  width: 0px;
+  height: 0px;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: #f5f5f5 !important;
+}
+
+body::-webkit-scrollbar-thumb {
+  box-shadow: inset 0 0 6px grey !important;
+  background-color: #f5f5f5 !important;
+  border-radius: 5rem !important;
+}
+
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+// .mat-drawer-inner-container::-webkit-scrollbar,
+// .mat-drawer-content.ng-star-inserted::-webkit-scrollbar {
+//   width: 10px;
+//   height: 0;
+// }
+
+// .mat-drawer-inner-container::-webkit-scrollbar,
+// .mat-drawer-content.ng-star-inserted::-webkit-scrollbar-track {
+//   border-radius: 5rem;
+// }
+
+// .mat-drawer-inner-container::-webkit-scrollbar,
+// .mat-drawer-content.ng-star-inserted::-webkit-scrollbar-thumb {
+//   box-shadow: inset 0 0 6px var(--color1);
+//   border-radius: 10rem;
+// }
+
+::ng-deep .mat-form-field-wrapper {
+  margin-bottom: -1.25em;
+}
+/* Importing Bootstrap SCSS file. */
+// @import "~bootstrap/scss/bootstrap";
+
+/* Importing Datepicker SCSS file. */
+// @import "~ngx-bootstrap/datepicker/bs-datepicker";
+
+.p-confirm-popup-message.ng-tns-c98-1 {
+  font-size: 0.9rem !important;
+}
+
+.p-confirm-popup-accept.p-button-sm.p-button.p-component {
+  border-radius: .25rem;
+}

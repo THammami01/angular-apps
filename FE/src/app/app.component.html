@@ -1,0 +1,116 @@
+<p-toast position="bottom-center" ngClass="custom-toast"></p-toast>
+
+<div *ngIf="!(isLoading$ | async)" ngClass="beforeNavbar"></div>
+
+<p-progressBar
+  *ngIf="isLoading$ | async"
+  mode="indeterminate"
+  [style]="{ height: '3px' }"
+></p-progressBar>
+
+<div ngClass="navbar">
+  <div>
+    <img src="assets/imgs/steg-logo.png" alt="STEG" (click)="handleGoHome()" />
+
+    <div ngClass="nav-rightside" *ngIf="isLoggedIn$ | async">
+      <p-chip
+        label="Administrateur"
+        (click)="menu.toggle($event)"
+        style="cursor: pointer"
+        icon="pi pi-user"
+      ></p-chip>
+      <p-avatar
+        icon="pi pi-ellipsis-v"
+        shape="circle"
+        (click)="menu.toggle($event)"
+        style="cursor: pointer"
+        size="small"
+      ></p-avatar>
+      <p-menu #menu [popup]="true" [model]="items"></p-menu>
+
+      <!-- MODAL START -->
+      <p-dialog
+        [keepInViewport]="false"
+        header="Changement du mot de passe"
+        [(visible)]="isChangePwdModalDisplayed"
+        [modal]="true"
+        [draggable]="false"
+        [resizable]="false"
+        ngClass="change-pwd-body"
+        style="padding: 1rem 0"
+      >
+        <p>Ancien mot de passe:</p>
+        <input
+          pInputText
+          [pKeyFilter]="blockSpace"
+          type="password"
+          [(ngModel)]="pwds.oldPwd"
+          (keyup.enter)="handleChangePwd()"
+        />
+
+        <p>Nouveau mot de passe:</p>
+
+        <p-password
+          [pKeyFilter]="blockSpace"
+          [toggleMask]="true"
+          [feedback]="false"
+          [(ngModel)]="pwds.newPwd"
+          (keyup.enter)="handleChangePwd()"
+        ></p-password>
+
+        <p>Nouveau mot de passe une autre fois:</p>
+        <input
+          pInputText
+          [pKeyFilter]="blockSpace"
+          type="password"
+          [(ngModel)]="pwds.newPwdAgain"
+          (keyup.enter)="handleChangePwd()"
+        />
+
+        <ng-template pTemplate="footer">
+          <div style="display: flex; gap: 0.25rem; justify-content: flex-end">
+            <button
+              pButton
+              label="Enregistrer"
+              (click)="handleChangePwd()"
+              style="margin: 0"
+              [disabled]="isLoading$ | async"
+              ></button>
+            <button
+              pButton
+              type="button"
+              label="Annuler"
+              class="p-button-text p-button-plain"
+              (click)="hideChangePwdModalDisplayed()"
+              style="margin: 0"
+            ></button>
+          </div>
+        </ng-template>
+      </p-dialog>
+      <!-- MODAL END -->
+    </div>
+
+    <!-- <button
+      *ngIf="isLoggedIn$ | async"
+      pButton
+      pRipple
+      type="button"
+      label="Se déconnecter"
+      class="p-button-primary p-button-rounded"
+      (click)="handleLogout()"
+      style="font-weight: 500"
+    ></button> -->
+  </div>
+</div>
+
+<div ngClass="afterNavbar"></div>
+
+<div *ngIf="justStarted" ngClass="just-started-spinner">
+  <p-progressSpinner strokeWidth="3px"></p-progressSpinner>
+</div>
+
+<router-outlet *ngIf="!justStarted"></router-outlet>
+
+<div ngClass="bottom-title">
+  <p>Gestion des incidents sur le réseau HTA.</p>
+</div>

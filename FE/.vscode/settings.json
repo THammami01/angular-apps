@@ -1,0 +1,21 @@
+{
+  "files.exclude": {
+    "node_modules": true,
+    "karma.conf.js": true,
+    "package-lock.json": true,
+    "tsconfig.json": true,
+    "angular.json": true,
+    "package.json.save": true,
+    "tsconfig.app.json": true,
+    "tsconfig.spec.json": true,
+    ".browserslistrc": true,
+    ".editorconfig": true,
+    "package.json": true,
+    "README.md": true,
+
+    "src/environments": true,
+    "src/favicon.ico": true,
+    "src/polyfills.ts": true,
+    "src/test.ts": true,
+  }
+}

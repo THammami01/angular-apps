@@ -1,0 +1,50 @@
+.login-form {
+  width: 95%;
+  max-width: 400px;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  h1 {
+    text-align: center;
+  }
+
+  img {
+    width: 100%;
+    margin: 3.5rem 0 !important;
+    margin: 0 auto;
+    border-bottom: 0.1rem solid #0000ff30;
+  }
+
+  input,
+  button {
+    border-radius: 0.25rem;
+    padding: 0.5rem 1rem;
+    border-color: #0000ff30;
+    font-size: bold;
+  }
+
+  button {
+    text-align: center;
+  }
+}
+
+// TOAST
+::ng-deep .ng-tns-c53-1.p-toast.p-component.p-toast-bottom-center {
+  .p-toast-message-content,
+  .p-toast-summary,
+  .p-toast-summary.ng-tns-c52-2 {
+    margin-right: 1rem !important;
+  }
+}
+::ng-deep .p-toast.p-component.p-toast-bottom-center {
+  margin-right: 1rem !important;
+}
+
+@media all and (max-width: 450px) {
+  ::ng-deep .p-toast.p-component.p-toast-bottom-center {
+    width: 250px !important;
+    margin-right: 1rem !important;
+  }
+}

@@ -1,0 +1,46 @@
+<p-toast position="bottom-center" ngClass="custom-toast"></p-toast>
+
+<div>
+  <div ngClass="login-form p-input-filled">
+    <img src="assets/imgs/steg.png" alt="STEG" />
+
+    <!-- @ts-ignore -->
+    <input
+      type="text"
+      placeholder="Entrer votre identifiant.."
+      pInputText
+      [pKeyFilter]="blockSpace"
+      ngClass="p-input-filled"
+      (keyup.enter)="handleLogin()"
+      [(ngModel)]="formFields.userId"      
+    />
+
+    <!-- @ts-ignore -->
+    <input
+      type="password"
+      placeholder="Entrer votre mot de passe.."
+      pInputText
+      [pKeyFilter]="blockSpace"
+      (keyup.enter)="handleLogin()"
+      [(ngModel)]="formFields.userPwd"
+    />
+
+    <button
+      pButton
+      type="button"
+      (click)="handleLogin()"
+      [disabled]="isLoading$ | async"
+      style="font-weight: 500"
+    >
+      <i
+        *ngIf="isLoading$ | async"
+        class="pi pi-spin pi-spinner"
+        style="font-size: 1rem; position: absolute"
+      ></i>
+      <p style="text-align: center; width: 100% !important">
+        S'authentifier
+        <i class="pi pi-sign-in" style="margin-left: .5rem; transform: translateY(2px);"></i>
+      </p>
+    </button>
+  </div>
+</div>
