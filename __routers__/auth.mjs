@@ -17,17 +17,17 @@ const generateAccessToken = (employee) => {
 };
 
 router.post("/login", (req, res) => {
-  const { registration, passkey } = req.body;
+  // const { registration, passkey } = req.body;
 
-  getEmployeeByRegistration(registration, passkey)
-    .then((employeeArr) => {
-      if (employeeArr.length != 1) res.send({ accessToken: "NO_ACCESS_TOKEN" });
-      else {
-        delete employeeArr[0].passkey;
-        res.send({ accessToken: generateAccessToken(employeeArr[0]) });
-      }
-    })
-    .catch((err) => res.sendStatus(500));
+  // getEmployeeByRegistration(registration, passkey)
+  //   .then((employeeArr) => {
+  //     if (employeeArr.length != 1) res.send({ accessToken: "NO_ACCESS_TOKEN" });
+  //     else {
+  //       delete employeeArr[0].passkey;
+  //       res.send({ accessToken: generateAccessToken(employeeArr[0]) });
+  //     }
+  //   })
+  //   .catch((err) => res.sendStatus(500));
 });
 
 router.delete("/logout", (req, res) => {

@@ -1,53 +1,33 @@
-<section>
-  <div ngClass="login-form" @fadeSlideInOut>
-    <img src="assets/imgs/tuntel.png" alt="TunTel Logo" />
+<p-toast position="top-right"></p-toast>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Matricule</mat-label>
-      <input
-        matInput
-        placeholder="Entrer votre matricule.."
-        [(ngModel)]="loginData.registration"
-        (keyup.enter)="handleLogin()"
-        autocomplete="off"
-        required
-      />
-      <!-- <mat-hint></mat-hint>  -->
-    </mat-form-field>
+<div>
+  <div ngClass="navbar">
+    <img src="assets/imgs/delice.png" alt="Délice" />
+  </div>
 
-    <mat-form-field appearance="outline">
-      <mat-label>Mot de passe</mat-label>
-      <input
-        matInput
-        placeholder="Entrer votre mot de passe.."
-        [(ngModel)]="loginData.passkey"
-        [type]="hidePwd ? 'password' : 'text'"
-        (keyup.enter)="handleLogin()"
-        autocomplete="off"
-        required
-      />
-      <!-- <mat-hint></mat-hint>  -->
+  <div ngClass="login-form p-input-filled">
+    <img src="assets/imgs/delice.png" alt="Délice" />
 
-      <button
-        mat-icon-button
-        matSuffix
-        ngClass="show-pwd-icon"
-        (click)="hidePwd = !hidePwd"
-        [attr.aria-label]="'Hide password'"
-        [attr.aria-pressed]="hidePwd"
-      >
-        <mat-icon>{{ hidePwd ? "visibility_off" : "visibility" }}</mat-icon>
-      </button>
-    </mat-form-field>
+    <input
+      type="text"
+      placeholder="Entrer votre identifiant.."
+      pInputText
+      ngClass="p-input-filled"
+      [(ngModel)]="formFields.identifier"
+    />
+
+    <input
+      type="password"
+      placeholder="Entrer votre mot de passe.."
+      pInputText
+      [(ngModel)]="formFields.password"
+    />
 
     <button
-      ngClass="login-btn"
-      mat-stroked-button
+      pButton
+      type="button"
+      label="S'authentifier"
       (click)="handleLogin()"
-      color="primary"
-    >
-      Se Connecter
-      <mat-icon>login</mat-icon>
-    </button>
+    ></button>
   </div>
-</section>
+</div>

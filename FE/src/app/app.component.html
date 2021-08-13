@@ -1,1 +1,12 @@
+{{ message$ | async }}
+
+<button pButton label="SPANISH" (click)="spanishMessage()"></button>
+<button pButton label="FRENCH" (click)="frenchMessage()"></button>
+
 <router-outlet></router-outlet>
+
+<div style="display: flex; width: 400px">
+  <button pButton type="button" label="Upvote" (click)="upvote()"></button>
+  <button pButton type="button" label="Downvote" (click)="downvote()"></button>
+  <h1>STATE: {{ vote$ | async }}</h1>
+</div>

@@ -1,10 +1,9 @@
-import path from "path";
+// import path from "path";
 import process from "process";
 import express from "express";
 import mysql from "mysql";
 import cors from "cors";
 import dotenv from "dotenv";
-// import favicon from "serve-favicon";
 
 import auth from "./__routers__/auth.mjs";
 
@@ -13,8 +12,8 @@ dotenv.config();
 app.use(express.json());
 app.use(cors());
 
-app.use(express.static("FE/dist/angular-app"));
-app.set("view engine", "pug");
+// app.use(express.static("FE/dist/angular-app"));
+// app.set("view engine", "pug");
 
 app.use("/auth", auth);
 
@@ -27,7 +26,10 @@ export const db = mysql.createConnection({
 });
 
 app.get("/", (req, res) => {
-  res.sendFile("index.html", { root: path.resolve(path.dirname("")) });
+  // res.sendFile("index.html", { root: path.resolve(path.dirname("")) });
+  res.send({
+    status: "Running.."
+  })
 });
 
 export const authMiddleware = (req, res, next) => {
@@ -41,14 +43,14 @@ export const authMiddleware = (req, res, next) => {
   });
 };
 
-app.get("/*", function (req, res) {
-  res.sendFile(
-    path.join(path.resolve(path.dirname("")), "FE/dist/angular-app/index.html"),
-    (err) => {
-      if (err) res.status(500).send(err);
-    }
-  );
-});
+// app.get("/*", function (req, res) {
+//   res.sendFile(
+//     path.join(path.resolve(path.dirname("")), "FE/dist/angular-app/index.html"),
+//     (err) => {
+//       if (err) res.status(500).send(err);
+//     }
+//   );
+// });
 
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
