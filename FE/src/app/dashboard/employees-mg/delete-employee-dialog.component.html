@@ -1,0 +1,98 @@
+<div style="width: 400px">
+  <h3 style="margin-bottom: 1.5rem">Suppression d'un employé</h3>
+
+  <p style="line-height: 1.5">
+    Voulez-vous vraiment supprimer l'employé avec les details ci-dessous ?
+  </p>
+
+  <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
+    <mat-form-field appearance="standard" style="flex: 1">
+      <input
+        matInput
+        placeholder="Prénom"
+        autocomplete="off"
+        disabled
+        [value]="employee?.firstname"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="flex: 1">
+      <input
+        matInput
+        placeholder="Nom de la famille"
+        autocomplete="off"
+        disabled
+        [value]="employee?.lastname"
+      />
+    </mat-form-field>
+  </div>
+
+  <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
+    <mat-form-field appearance="standard" style="width: 50%">
+      <span matPrefix>+216&nbsp;&nbsp;</span>
+      <input
+        matInput
+        placeholder="Téléphone"
+        autocomplete="off"
+        [value]="employee?.phone"
+        disabled
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 50%">
+      <input
+        matInput
+        placeholder="Sexe"
+        autocomplete="off"
+        [value]="employee?.gender"
+        disabled
+      />
+    </mat-form-field>
+  </div>
+
+  <div style="display: flex; gap: 1rem; padding-right: 0.5rem">
+    <mat-form-field appearance="standard" style="width: 80%">
+      <input
+        matInput
+        placeholder="Matricule"
+        autocomplete="off"
+        disabled
+        [value]="employee?.registration"
+      />
+    </mat-form-field>
+
+    <mat-form-field appearance="standard" style="width: 80%">
+      <input
+        matInput
+        placeholder="Grade"
+        autocomplete="off"
+        disabled
+        [value]="employee?.position"
+      />
+    </mat-form-field>
+  </div>
+
+  <mat-form-field appearance="standard" style="width: 80%">
+    <input
+      matInput
+      placeholder="Email"
+      autocomplete="off"
+      disabled
+      [value]="employee?.email"
+    />
+  </mat-form-field>
+
+  <div style="margin-top: 0.5rem; display: flex; gap: 0.5rem">
+    <button
+      mat-flat-button
+      style="padding: 0.25rem 1.5rem; color: white; background-color: red"
+      (click)="handleClick()"
+      matDialogClose
+    >
+      Supprimer
+    </button>
+    <button mat-flat-button style="padding: 0.25rem 1.5rem" matDialogClose>
+      Annuler
+    </button>
+  </div>
+</div>

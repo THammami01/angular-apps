@@ -1,0 +1,48 @@
+.container {
+  border: 1px solid rgba(0, 0, 0, 0.5);
+  height: 100vh;
+  width: 100vw;
+  border: none;
+}
+
+.sidenav {
+  width: 300px;
+  padding: 0.5rem;
+
+  img {
+    width: 50%;
+    margin-bottom: 1.5rem;
+  }
+
+  .sidenav-items {
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.25rem;
+
+    > * {
+      padding: 0.25rem 1rem;
+    }
+  }
+
+  .logout-btn {
+    margin-top: 3rem;
+    mat-icon {
+      transform: rotate(180deg) translateY(1px);
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.toolbar {
+  padding: 2.5rem 1.5rem;
+  h1 {
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    margin-left: 0.5rem;
+  }
+}
+
+.content {
+  margin: 1rem;
+}

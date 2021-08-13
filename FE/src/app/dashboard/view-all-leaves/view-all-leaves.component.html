@@ -1,0 +1,107 @@
+<mat-card ngClass="leaves-mg container" @fadeSlideInOut>
+  <mat-button-toggle-group [(ngModel)]="selectedType" ngClass="demand-types">
+    <mat-button-toggle value="Tous">Tous</mat-button-toggle>
+    <mat-button-toggle value="En Attente">En Attentes</mat-button-toggle>
+    <mat-button-toggle value="Acceptée">Acceptées</mat-button-toggle>
+    <mat-button-toggle value="Non Acceptée">Non Acceptées</mat-button-toggle>
+  </mat-button-toggle-group>
+
+  <div ngClass="first-section">
+    <div ngClass="spinner" *ngIf="demands === undefined; else showDemandsTable">
+      <mat-spinner></mat-spinner>
+    </div>
+
+    <ng-template #showDemandsTable>
+      <table mat-table [dataSource]="filteredDemands || []">
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef>Id</th>
+          <td mat-cell *matCellDef="let element">{{ element.id }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="demandType">
+          <th mat-header-cell *matHeaderCellDef>Type</th>
+          <td mat-cell *matCellDef="let element">{{ element.leaveType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="startDate">
+          <th mat-header-cell *matHeaderCellDef>Date début</th>
+          <td mat-cell *matCellDef="let element">{{ element.startDate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="endDate">
+          <th mat-header-cell *matHeaderCellDef>Date fin</th>
+          <td mat-cell *matCellDef="let element">{{ element.endDate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="submitDate">
+          <th mat-header-cell *matHeaderCellDef>Date soumession</th>
+          <td mat-cell *matCellDef="let element">{{ element.submitDate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="updateDate">
+          <th mat-header-cell *matHeaderCellDef>Date dernier mise à jour</th>
+          <td mat-cell *matCellDef="let element">
+            {{ element.updateDate || "Non mis à jour" }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="demandStatus">
+          <th mat-header-cell *matHeaderCellDef style="padding-left: 1rem">
+            Status
+          </th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              *ngIf="element.demandStatus === 'En Attente'"
+              mat-button
+              ngClass="status waiting"
+              disableRipple
+            >
+              {{ element.demandStatus }}
+            </button>
+            <button
+              *ngIf="element.demandStatus === 'Acceptée'"
+              mat-button
+              ngClass="status accepted"
+              disableRipple
+            >
+              {{ element.demandStatus }}
+            </button>
+            <button
+              *ngIf="element.demandStatus === 'Non Acceptée'"
+              mat-button
+              ngClass="status not-accepted"
+              disableRipple
+            >
+              {{ element.demandStatus }}
+            </button>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let element">
+            <button
+              mat-icon-button
+              color="accent"
+              matTooltip="Supprimer"
+              matTooltipShowDelay="500"
+              matTooltipHideDelay="300"
+              (click)="deleteDemand(element.id, 'Supprimée')"
+            >
+              <mat-icon>delete</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+
+      <mat-list *ngIf="filteredDemands?.length === 0">
+        <mat-list-item ngClass="mat-cell" style="color: gray"
+          >Aucune demande trouvée.</mat-list-item
+        >
+      </mat-list>
+    </ng-template>
+  </div></mat-card
+>

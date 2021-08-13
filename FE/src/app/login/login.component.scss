@@ -1,0 +1,38 @@
+section {
+  display: flex;
+  height: 100vh;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form {
+  width: 40%;
+  min-width: 400px;
+
+  padding: 3rem;
+  border: .1rem solid var(--color1);
+
+  > img {
+    width: 100%;
+    padding: 0 6rem;
+    margin-bottom: 2rem;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  .login-btn {
+    padding: .75rem;
+    width: 100%;
+
+    mat-icon {
+      padding-left: .2rem;
+      transform: translateY(-2.5px);
+    }
+  }
+
+  .show-pwd-icon {
+    color: grey;
+  }
+}

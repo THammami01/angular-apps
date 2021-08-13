@@ -1,0 +1,56 @@
+<mat-drawer-container class="container" style="overflow: hidden">
+  <mat-drawer #drawer class="sidenav" mode="side" opened="true">
+    <div ngClass="sidenav-items">
+      <img src="assets/imgs/tuntel.png" alt="TunTel Logo" @fadeSlideInOut />
+
+      <ng-container *ngFor="let item of sideNavItems">
+        <button
+          *ngIf="currSelected.idx === item.idx"
+          mat-stroked-button
+          color="accent"
+          [routerLink]="item.link"
+        >
+          {{ item.shortTitle }}
+        </button>
+
+        <button
+          *ngIf="currSelected.idx !== item.idx"
+          mat-button
+          color="accent"
+          [routerLink]="item.link"
+          (click)="handleSideNav(item)"
+        >
+          {{ item.shortTitle }}
+        </button>
+      </ng-container>
+
+      <button
+        ngClass="logout-btn"
+        mat-stroked-button
+        color="warn"
+        (click)="handleLogout()"
+      >
+        <mat-icon>logout</mat-icon> Se déconnecter
+      </button>
+    </div>
+  </mat-drawer>
+
+  <mat-toolbar ngClass="toolbar" @fadeSlideInOut>
+    <button
+      mat-icon-button
+      class="example-icon"
+      aria-label="Example icon-button with menu icon"
+      (click)="drawer.toggle()"
+      matTooltip="Tableau de bord"
+      matTooltipShowDelay="500"
+      matTooltipHideDelay="300"
+    >
+      <mat-icon>menu</mat-icon>
+    </button>
+    <h1>{{ currSelected.title }}</h1>
+  </mat-toolbar>
+
+  <div class="content">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>

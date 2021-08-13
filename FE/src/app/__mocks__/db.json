@@ -1,0 +1,24 @@
+{
+  "employees": [
+    {
+      "id": 0.8754723756396998,
+      "registration": "",
+      "firstname": "",
+      "lastname": "",
+      "position": "",
+      "phone": "",
+      "email": "",
+      "passkey": ""
+    },
+    {
+      "id": 0.7507435482220366,
+      "registration": "",
+      "firstname": "",
+      "lastname": "",
+      "position": "",
+      "phone": "",
+      "email": "",
+      "passkey": ""
+    }
+  ]
+}
