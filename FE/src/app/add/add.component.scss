@@ -1,0 +1,56 @@
+.container {
+  width: 90%;
+  margin: 0.25rem auto;
+  padding: 1.5rem 1.5rem 7rem;
+  height: 200vh;
+  max-width: 1000px;
+  background-color: white;
+  border-radius: 0.5rem;
+
+  h1 {
+    margin: 1.5rem 0;
+
+    .go-back-icon {
+      font-weight: 800;
+      font-size: 1.5rem;
+      margin-right: .75rem;
+      cursor: pointer;
+    }
+  }
+
+  .divider {
+    margin: 2.5rem 0 2rem;
+  }
+}
+
+@media all and (max-width: 377px) {
+  .container {
+    padding: 0.5rem 0 5rem;
+  }
+}
+
+// SCROLL TO TOP
+:host
+  ::ng-deep
+  .ng-trigger.ng-trigger-animation.ng-star-inserted.p-scrolltop.p-link.p-component {
+  color: #106ebe !important;
+  background-color: #106ebe !important;
+  margin-bottom: 2.5rem;
+  margin-right: 1.5rem;
+  border-radius: 0.75rem;
+  height: 43px;
+  width: 43px;
+
+  &:hover {
+    color: #584d85 !important;
+    background-color: #584d85 !important;
+  }
+}
+
+@media all and (max-width: 377px) {
+  :host
+    ::ng-deep
+    .ng-trigger.ng-trigger-animation.ng-star-inserted.p-scrolltop.p-link.p-component {
+    margin-bottom: 3.25rem;
+  }
+}

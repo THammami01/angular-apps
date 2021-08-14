@@ -3,7 +3,7 @@ import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
 dotenv.config();
 
-import { getEmployeeByRegistration } from "../__db__/auth.mjs";
+import { getUserById } from "../__db__/auth.mjs";
 
 const router = express.Router();
 
@@ -17,17 +17,17 @@ const generateAccessToken = (employee) => {
 };
 
 router.post("/login", (req, res) => {
-  // const { registration, passkey } = req.body;
+  const { userId, userPwd } = req.body;
 
-  // getEmployeeByRegistration(registration, passkey)
-  //   .then((employeeArr) => {
-  //     if (employeeArr.length != 1) res.send({ accessToken: "NO_ACCESS_TOKEN" });
-  //     else {
-  //       delete employeeArr[0].passkey;
-  //       res.send({ accessToken: generateAccessToken(employeeArr[0]) });
-  //     }
-  //   })
-  //   .catch((err) => res.sendStatus(500));
+  getUserById(userId, userPwd)
+    .then((usersArr) => {
+      if (usersArr.length != 1) res.send({ accessToken: "NO_ACCESS_TOKEN" });
+      else {
+        delete usersArr[0].passkey;
+        res.send({ accessToken: generateAccessToken(usersArr[0]) });
+      }
+    })
+    .catch((err) => res.sendStatus(500));
 });
 
 router.delete("/logout", (req, res) => {

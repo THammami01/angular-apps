@@ -1,12 +1,18 @@
+import { MessageService } from 'primeng/api';
 import { Component, OnInit } from '@angular/core';
 import { fadeSlideInOutAnimation } from './../__utils__/animations';
+import axios, { AxiosResponse, AxiosError } from 'axios';
 // import jwt_decode from 'jwt-decode';
-import { MessageService } from 'primeng/api';
-import axios from 'axios';
+import { Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { AppState } from '../app.component';
+import { baseUrl } from './../__utils__/baseUrl';
+
+interface ResData {
+  accessToken: string;
+}
 
 @Component({
   selector: 'app-login',
@@ -16,47 +22,70 @@ import { AppState } from '../app.component';
   providers: [MessageService],
 })
 export class LoginComponent implements OnInit {
+  blockSpace: RegExp = /[^\s]/;
+
   formFields = {
-    identifier: '',
-    password: '',
+    userId: '',
+    userPwd: '',
   };
 
-  message$: Observable<string>;
-  vote$: Observable<number>;
+  isLoading$: Observable<boolean>;
 
   constructor(
+    private messageService: MessageService,
     private store: Store<AppState>,
-    private messageService: MessageService
+    private router: Router
   ) {
-    this.message$ = this.store.select('message');
-    this.vote$ = this.store.select('vote');
+    this.isLoading$ = this.store.select('loader');
   }
 
   ngOnInit() {
-    document.title = 'Délice ‣ Connexion';
+    if (localStorage.getItem('accessToken')) {
+      this.router.navigate(['incidents']);
+    } else {
+      document.title = 'STEG ‣ Connexion';
+    }
   }
 
   handleLogin() {
     this.clear();
-    const { identifier, password } = this.formFields;
-    console.log(identifier, password);
+    const { userId, userPwd } = this.formFields;
 
-    if (identifier === '' && password === '')
+    if (userId === '' && userPwd === '')
       this.show('info', "Entrer l'identifiant et le mot de passe d'abord.");
-    else if (identifier === '')
-      this.show('info', "Entrer l'identifiant d'abord.");
-    else if (password === '')
+    else if (userId === '') this.show('info', "Entrer l'identifiant d'abord.");
+    else if (userPwd === '')
       this.show('info', "Entrer le mot de passe d'abord.");
     else {
+      this.showProgressBar();
       axios
-        .get('http://localhost:4000/auth/login')
-        .then((res) => {
-          this.show('info', res.data.status);
+        .post(`${baseUrl}/auth/login`, this.formFields)
+        .then((res: AxiosResponse<ResData>) => {
+          if (res.data.accessToken === 'NO_ACCESS_TOKEN') {
+            this.hideProgressBar(() => {
+              this.show('error', 'Combinison invalide.');
+            });
+          } else {
+            this.hideProgressBar(() => {
+              localStorage.setItem('accessToken', res.data.accessToken);
+              this.store.dispatch({ type: 'SET_LOGGED_IN' });
+              this.router.navigate(['incidents'], {
+                queryParams: { newlyConnected: true },
+              });
+            });
+          }
         })
-        .catch(() => {
-          this.show('error', 'Une erreur est survenue.');
+        .catch((err: AxiosError) => {
+          console.log(err);
+          this.hideProgressBar(() => {
+            this.show('error', 'Une erreur est survenue.');
+          });
         });
     }
+  }
+
+  clear() {
+    this.messageService.clear();
   }
 
   show(type: string, msg: string) {
@@ -66,7 +95,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  clear() {
-    this.messageService.clear();
+  showProgressBar() {
+    this.store.dispatch({ type: 'START_LOADING' });
+  }
+
+  hideProgressBar(callback: () => void) {
+    setTimeout(() => {
+      this.store.dispatch({ type: 'STOP_LOADING' });
+      callback();
+    }, 2000);
   }
 }

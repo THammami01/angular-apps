@@ -1,12 +1,12 @@
 import { db } from "../index.mjs";
 
-export const getEmployeeByRegistration = (registration, passkey) => {
-  // const sql = `SELECT * FROM Employee WHERE registration = ? AND passkey = ?;`;
+export const getUserById = (userId, userPwd) => {
+  const sql = `SELECT * FROM User WHERE userId = ? AND userPwd = ?;`;
 
-  // return new Promise((resolve, reject) => {
-  //   db.query(sql, [registration, passkey], (err, results) => {
-  //     if (err) return reject(err);
-  //     return resolve(results);
-  //   });
-  // });
+  return new Promise((resolve, reject) => {
+    db.query(sql, [userId, userPwd], (err, results) => {
+      if (err) return reject(err);
+      return resolve(results);
+    });
+  });
 };

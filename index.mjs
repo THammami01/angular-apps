@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import auth from "./__routers__/auth.mjs";
+import incidents from "./__routers__/incidents.mjs";
 
 const app = express();
 dotenv.config();
@@ -16,6 +17,7 @@ app.use(cors());
 // app.set("view engine", "pug");
 
 app.use("/auth", auth);
+app.use("/incidents", incidents);
 
 export const db = mysql.createConnection({
   host: process.env.DB_HOST,

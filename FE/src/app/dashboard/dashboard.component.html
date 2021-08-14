@@ -1,1 +1,106 @@
-DASHBOARD PAGE
+<p-toast position="bottom-center" ngClass="custom-toast"></p-toast>
+
+<div ngClass="container">
+  <div ngClass="top-section">
+    <h1>
+      Liste des incidents
+      <span ngClass="nb-incidents">[{{ incidents.length }}]</span>
+    </h1>
+    <button
+      pButton
+      label="Ajouter un nouveau enregistrement"
+      icon="pi pi-plus"
+      class="p-button-outlined"
+      (click)="handleAdd()"
+    ></button>
+  </div>
+
+  <div ngClass="divider">
+    <p-divider></p-divider>
+  </div>
+
+  <p-table
+    *ngIf="incidents !== null"
+    [value]="incidents"
+    [scrollable]="true"
+    [style]="{ width: '100%' }"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th style="min-width: 80px">Id</th>
+        <th style="min-width: 150px">Poste<br />Source</th>
+        <th style="min-width: 100px">Tension</th>
+        <th style="min-width: 150px">Départ</th>
+        <th style="min-width: 80px">Type A/S</th>
+        <th style="min-width: 175px">Type<br />Incident</th>
+        <th style="min-width: 150px">Début</th>
+        <th style="min-width: 150px">1er<br />Rétablissement</th>
+        <th style="min-width: 150px">Fin</th>
+        <th style="min-width: 125px">Courant<br />Coupé</th>
+        <th style="min-width: 125px">Courant 1er Rétablissement</th>
+        <th style="min-width: 150px">Trançon<br />Concerné</th>
+        <th style="min-width: 250px">Observations</th>
+
+        <th
+          style="min-width: 80px; border-left: 0.2rem solid #f5f5f5"
+          pFrozenColumn
+          [frozen]="true"
+          alignFrozen="right"
+        >
+          MàJ
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-incident>
+      <tr>
+        <td style="min-width: 80px">{{ incident.incidentNb }}</td>
+        <td style="min-width: 150px">{{ incident.sourcePost }}</td>
+        <td style="min-width: 100px">{{ incident.voltage }} V</td>
+        <td style="min-width: 150px">{{ incident.departure }}</td>
+        <td style="min-width: 80px">{{ incident.aSType }}</td>
+        <td style="min-width: 175px">{{ incident.incidentType }}</td>
+        <td style="min-width: 150px">{{ incident.startDatetime }}</td>
+        <td style="min-width: 150px">{{ incident.firstRecoveryDatetime }}</td>
+        <td style="min-width: 150px">{{ incident.endDatetime }}</td>
+        <td style="min-width: 125px">{{ incident.cutOff }}</td>
+        <td style="min-width: 125px">{{ incident.recovery }}</td>
+        <td style="min-width: 150px">{{ incident.section }}</td>
+        <td style="min-width: 250px">{{ incident.observations }}</td>
+
+        <td
+          style="
+            min-width: 80px;
+            border-left: 0.2rem solid #f5f5f5;
+            display: flex;
+            gap: 0.25rem;
+          "
+          pFrozenColumn
+          [frozen]="true"
+          alignFrozen="right"
+        >
+          <button
+            pButton
+            pRipple
+            icon="pi pi-pencil"
+            class="edit-icon p-button-help p-button-text"
+            (click)="handleEdit(incident.incidentNb)"
+          ></button>
+
+          <button
+            pButton
+            pRipple
+            icon="pi pi-trash"
+            class="edit-icon p-button-help p-button-text"
+            (click)="handleDelete($event, incident.incidentNb)"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <p *ngIf="!incidents.length" ngClass="if-table-empty">
+    Aucun enregistrement à afficher.
+  </p>
+</div>
+
+<p-confirmPopup [style]="{ 'font-size': '.8rem' }"></p-confirmPopup>
+<p-scrollTop></p-scrollTop>

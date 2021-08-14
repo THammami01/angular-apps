@@ -1,12 +1,36 @@
-{{ message$ | async }}
+<div *ngIf="!(isLoading$ | async)" ngClass="beforeNavbar"></div>
 
-<button pButton label="SPANISH" (click)="spanishMessage()"></button>
-<button pButton label="FRENCH" (click)="frenchMessage()"></button>
+<p-progressBar
+  *ngIf="isLoading$ | async"
+  mode="indeterminate"
+  [style]="{ height: '3px' }"
+></p-progressBar>
 
-<router-outlet></router-outlet>
+<div ngClass="navbar">
+  <div>
+    <img src="assets/imgs/steg-logo.png" alt="STEG" (click)="handleGoHome()" />
 
-<div style="display: flex; width: 400px">
-  <button pButton type="button" label="Upvote" (click)="upvote()"></button>
-  <button pButton type="button" label="Downvote" (click)="downvote()"></button>
-  <h1>STATE: {{ vote$ | async }}</h1>
+    <button
+      *ngIf="isLoggedIn$ | async"
+      pButton
+      pRipple
+      type="button"
+      label="Se déconnecter"
+      class="p-button-primary p-button-rounded"
+      (click)="handleLogout()"
+      style="font-weight: 500"
+    ></button>
+  </div>
+</div>
+
+<div ngClass="afterNavbar"></div>
+
+<div *ngIf="justStarted" ngClass="just-started-spinner">
+  <p-progressSpinner strokeWidth="3px"></p-progressSpinner>
+</div>
+
+<router-outlet *ngIf="!justStarted"></router-outlet>
+
+<div ngClass="bottom-title">
+  <p>Gestion des incidents sur le réseau HTA.</p>
 </div>

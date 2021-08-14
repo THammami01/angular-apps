@@ -1,63 +1,52 @@
-SHOW DATABASES;
+CREATE DATABASE SGI;
 
-CREATE DATABASE SGC;
-
-USE SGC;
+USE SGI;
 
 SHOW TABLES;
 
-CREATE TABLE Employee (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	registration VARCHAR(255) NOT NULL UNIQUE,
-	firstname VARCHAR(255) NOT NULL,
-	lastname VARCHAR(255) NOT NULL,
-	position VARCHAR(255) NOT NULL,
-	phone VARCHAR(255) NOT NULL,
-	gender VARCHAR(255) NOT NULL,
-	email VARCHAR(255) NOT NULL,
-	passkey VARCHAR(255) NOT NULL,
-	signup_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE User(
+	userNb INT PRIMARY KEY AUTO_INCREMENT,
+	userId VARCHAR(255) NOT NULL UNIQUE,
+	userPwd VARCHAR(255) NOT NULL
 );
 
-DESC Employee;
-SELECT * FROM Employee;
-DELETE FROM Employee;
-DROP TABLE Employee;
+DESC User;
+SELECT * FROM User;
+DROP TABLE User;
 
-INSERT INTO Employee(registration, firstname, lastname, position, phone, gender, email, passkey)
-VALUES(
-	"1001", "Tarek", "Hammami", "Service Informatique",
-	"90000000", "Masculin", "thammami.me@gmail.com", "Hello123"
+INSERT INTO User(userId, userPwd)
+VALUES("admin5", "admin5");
+
+
+CREATE TABLE Incident(
+	incidentNb INT PRIMARY KEY AUTO_INCREMENT,
+
+    sourcePost VARCHAR(255) NOT NULL, -- Poste source
+	voltage INT NOT NULL, -- Tension en KV
+    departure VARCHAR(255) NOT NULL, -- Nom du départ
+	aSType VARCHAR(255) NOT NULL, -- Types (A=Aérien/S=Souterrain)
+
+    incidentType VARCHAR(255) NOT NULL, -- or nature, Type de l'incident (R+L+D, R=DRR L=DRL D=DD)
+    -- cause VARCHAR(255) NOT NULL,
+
+	startDatetime VARCHAR(255) NOT NULL, -- Début
+	firstRecoveryDatetime VARCHAR(255) NOT NULL, -- 1er rétablissement
+    endDatetime VARCHAR(255) NOT NULL, -- Fin
+
+	cutOff INT NOT NULL, -- Courant coupé
+	recovery INT NOT NULL, -- Courant 1er rétablissement
+    section VARCHAR(255) NOT NULL, -- Tronçon concerné
+    observations TEXT NULL -- Observations
 );
 
-INSERT INTO Employee(registration, firstname, lastname, position, phone, gender, email, passkey)
-VALUES(
-	"1002", "X", "Y", "Administrateur du site",
-	"90000001", "Féménin", "x.y@gmail.com", "Hello123"
+DESC Incident;
+SELECT * FROM Incident;
+DROP TABLE Incident;
+
+INSERT INTO Incident(
+	sourcePost, voltage, departure, aSType, incidentType, startDatetime,
+    firstRecoveryDatetime, endDatetime, cutOff, recovery, section, observations
+) VALUES(
+	"Mnihla", 30, "K. Andalous", "A", "DRR, DRL, DD", "14/08/2021 20:07",
+	"14/08/2021 22:00", "14/08/2021 23:30", 51, 12, "entre T2 et T3", "......"
 );
-
-
-
-
-CREATE TABLE Demand (
-	id INT PRIMARY KEY AUTO_INCREMENT,
-	employeeId INT NOT NULL,
-	leaveType VARCHAR(255) NOT NULL,
-	startDate VARCHAR(255) NOT NULL,
-	endDate VARCHAR(255) NOT NULL,
-	demandStatus VARCHAR(255) NOT NULL DEFAULT "En Attente",
-	submitDate TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-	updateDate TIMESTAMP
-);
-
-DESC Demand;
-SELECT * FROM Demand;
-DELETE FROM Demand;
-DROP TABLE Demand;
-
-INSERT INTO Demand(employeeId, leaveType, startDate, endDate)
-VALUES(1, "Maladie", "1626390000000", "1637276400000");
-
-SELECT D.*, CONCAT(E.firstname, " ", E.lastname) AS employeeName
-FROM Demand AS D, Employee AS E
-WHERE D.employeeId = E.id;

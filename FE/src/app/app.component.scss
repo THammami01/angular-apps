@@ -1,0 +1,91 @@
+.beforeNavbar,
+.afterNavbar {
+  height: 3px;
+  background-color: #106ebe;
+}
+
+.afterNavbar {
+  box-shadow: 0px 2px 2px 0px #aaaaaa;
+}
+
+.navbar {
+  height: 4rem;
+  background-color: #106ebe;
+  display: flex;
+  > div {
+    height: 4rem;
+    width: 95%;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    img {
+      border-radius: 50%;
+      height: 95%;
+      margin: 0 1rem;
+      cursor: pointer;
+    }
+
+    button {
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+      border-color: #0000ff30;
+      font-size: 0.95rem;
+      background-color: rgb(16, 127, 211);
+
+      &:hover {
+        background-color: rgba(16, 127, 211, 0.6);
+      }
+    }
+  }
+}
+
+.bottom-title {
+  background: rgb(16, 110, 190);
+  background: linear-gradient(
+    135deg,
+    #584d85 0%,
+    #106ebe 5%,
+    #106ebe 50%,
+    #584d85 100%
+  );
+  text-align: center;
+  color: white;
+  position: fixed;
+  bottom: 0;
+  padding: 0.75rem;
+  margin-left: 2rem;
+  right: 2rem;
+  border-radius: 1rem 1rem 0 0;
+  box-shadow: 0 -2px 10px #888;
+}
+
+.just-started-spinner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
+}
+
+:host ::ng-deep .custom-spinner .p-progress-spinner-circle {
+  animation: custom-progress-spinner-dash 1.5s ease-in-out infinite,
+    custom-progress-spinner-color 6s ease-in-out infinite;
+}
+
+@keyframes p-progress-spinner-color {
+  100%,
+  0% {
+    stroke: #d62d20;
+  }
+  40% {
+    stroke: #0057e7;
+  }
+  66% {
+    stroke: #008744;
+  }
+  80%,
+  90% {
+    stroke: #0057e7;
+  }
+}

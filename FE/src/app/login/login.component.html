@@ -1,33 +1,43 @@
-<p-toast position="top-right"></p-toast>
+<p-toast position="bottom-center" ngClass="custom-toast"></p-toast>
 
 <div>
-  <div ngClass="navbar">
-    <img src="assets/imgs/delice.png" alt="Délice" />
-  </div>
-
   <div ngClass="login-form p-input-filled">
-    <img src="assets/imgs/delice.png" alt="Délice" />
+    <img src="assets/imgs/steg.png" alt="STEG" />
 
+    <!-- @ts-ignore -->
     <input
       type="text"
       placeholder="Entrer votre identifiant.."
       pInputText
+      [pKeyFilter]="blockSpace"
       ngClass="p-input-filled"
-      [(ngModel)]="formFields.identifier"
+      (keyup.enter)="handleLogin()"
+      [(ngModel)]="formFields.userId"
     />
 
+    <!-- @ts-ignore -->
     <input
       type="password"
       placeholder="Entrer votre mot de passe.."
       pInputText
-      [(ngModel)]="formFields.password"
+      [pKeyFilter]="blockSpace"
+      (keyup.enter)="handleLogin()"
+      [(ngModel)]="formFields.userPwd"
     />
 
     <button
       pButton
       type="button"
-      label="S'authentifier"
       (click)="handleLogin()"
-    ></button>
+      [disabled]="isLoading$ | async"
+      style="font-weight: 500"
+    >
+      <i
+        *ngIf="isLoading$ | async"
+        class="pi pi-spin pi-spinner"
+        style="font-size: 1rem; position: absolute"
+      ></i>
+      <p style="text-align: center; width: 100% !important">S'authentifier</p>
+    </button>
   </div>
 </div>
