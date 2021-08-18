@@ -6,6 +6,7 @@ import { AppState } from '../app.component';
 import { fadeSlideInOutAnimation } from './../__utils__/animations';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { baseUrl } from '../__utils__/baseUrl';
+import { Incident } from '../__models__/Incident.model';
 // import jwt_decode from 'jwt-decode';
 
 // interface User {
@@ -13,22 +14,6 @@ import { baseUrl } from '../__utils__/baseUrl';
 //   userId: string;
 //   userPwd: string;
 // }
-
-interface Incident {
-  incidentNb: number;
-  sourcePost: string;
-  voltage: number;
-  departure: string;
-  aSType: string;
-  incidentType: string;
-  startDatetime: string;
-  firstRecoveryDatetime: string;
-  endDatetime: string;
-  cutOff: number;
-  recovery: number;
-  section: string;
-  observations: string;
-}
 
 // interface UsersResponse {
 //   users: User[];
@@ -65,8 +50,9 @@ export class DashboardComponent implements OnInit {
     }
 
     if (this.route.snapshot.queryParamMap.get('newlyConnected') === 'true') {
-      // alert('Vous êtes connectés');
-      // this.show('success', 'Vous êtes connectés.');
+      setTimeout(() => {
+        this.show('success', 'Vous êtes connectés.');
+      }, 1000);
     }
 
     document.title = 'STEG ‣ Liste des incidents';
@@ -77,7 +63,7 @@ export class DashboardComponent implements OnInit {
         this.incidents = res.data.incidents;
       })
       .catch((err: AxiosError) => {
-        console.log(err);
+        this.show('error', 'Une erreur est survenue.');
       });
   }
 
@@ -111,12 +97,10 @@ export class DashboardComponent implements OnInit {
             );
           })
           .catch((err: AxiosError) => {
-            console.log(err);
+            this.show('error', 'Une erreur est survenue.');
           });
       },
-      reject: () => {
-        console.log('REFUSED');
-      },
+      reject: () => {},
     });
   }
 

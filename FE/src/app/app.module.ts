@@ -21,13 +21,18 @@ import { TableModule } from 'primeng/table';
 import { KeyFilterModule } from 'primeng/keyfilter';
 import { DividerModule } from 'primeng/divider';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
+import { InputTextareaModule } from 'primeng/inputtextarea';
+import { InputMaskModule } from 'primeng/inputmask';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { MultiSelectModule } from 'primeng/multiselect';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { RadioButtonModule } from 'primeng/radiobutton';
 
 import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 import { loaderReducer } from './__reducers__/loader.reducer';
 import { loginReducer } from './__reducers__/login.reducer';
@@ -39,7 +44,6 @@ import { AddComponent } from './add/add.component';
     AppComponent,
     LoginComponent,
     DashboardComponent,
-    PageNotFoundComponent,
     EditComponent,
     AddComponent,
   ],
@@ -65,6 +69,12 @@ import { AddComponent } from './add/add.component';
     KeyFilterModule,
     DividerModule,
     ConfirmPopupModule,
+    InputTextareaModule,
+    InputMaskModule,
+    InputNumberModule,
+    MultiSelectModule,
+    SelectButtonModule,
+    RadioButtonModule,
   ],
   bootstrap: [AppComponent],
 })

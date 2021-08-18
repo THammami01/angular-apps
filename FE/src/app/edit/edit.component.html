@@ -1,3 +1,5 @@
+<p-toast position="bottom-center" ngClass="custom-toast"></p-toast>
+
 <div ngClass="container">
   <h1>
     <i
@@ -13,6 +15,158 @@
   <div ngClass="divider">
     <p-divider></p-divider>
   </div>
+
+  <div ngClass="inputs-groups-container">
+    <div ngClass="inputs-group">
+      <div class="p-field form-el">
+        <label>Début: <small>(jj/mm/aaaa hh:mm)</small></label>
+        <p-inputMask
+          mask="99/99/9999 99:99"
+          [(ngModel)]="newIncident.startDatetime"
+        ></p-inputMask>
+      </div>
+
+      <div class="p-field form-el">
+        <label>1er Rétablissement: <small>(jj/mm/aaaa hh:mm)</small></label>
+        <p-inputMask
+          mask="99/99/9999 99:99"
+          [(ngModel)]="newIncident.firstRecoveryDatetime"
+        ></p-inputMask>
+      </div>
+
+      <div class="p-field form-el">
+        <label>Fin: <small>(jj/mm/aaaa hh:mm)</small></label>
+        <p-inputMask
+          mask="99/99/9999 99:99"
+          [(ngModel)]="newIncident.endDatetime"
+        ></p-inputMask>
+      </div>
+
+      <div class="p-field form-el">
+        <label>Courant Coupé:</label>
+        <p-inputNumber
+          [(ngModel)]="newIncident.cutOff"
+          [useGrouping]="false"
+          [minFractionDigits]="1"
+        ></p-inputNumber>
+      </div>
+
+      <div class="p-field form-el">
+        <label>Courant 1er Rétablissmenent:</label>
+        <p-inputNumber
+          [(ngModel)]="newIncident.recovery"
+          [useGrouping]="false"
+          [minFractionDigits]="1"
+        ></p-inputNumber>
+      </div>
+
+      <div class="p-field form-el">
+        <label>Tronçon Concerné:</label>
+        <input pInputText [(ngModel)]="newIncident.section" />
+      </div>
+
+      <div class="p-field form-el">
+        <label>Observations:</label>
+        <textarea
+          rows="3"
+          cols="30"
+          pInputTextarea
+          [autoResize]="true"
+          [(ngModel)]="newIncident.observations"
+        ></textarea>
+      </div>
+    </div>
+
+    <p-divider layout="vertical" ngClass="inputs-groups-divider"> </p-divider>
+
+    <div ngClass="inputs-group">
+      <div class="p-field form-el">
+        <label>Poste Source:</label>
+        <input pInputText [(ngModel)]="newIncident.sourcePost" />
+      </div>
+
+      <div class="p-field form-el">
+        <label>Tension en KV:</label>
+        <p-inputNumber
+          [(ngModel)]="newIncident.voltage"
+          suffix=" KV"
+          [useGrouping]="false"
+          [minFractionDigits]="1"
+        ></p-inputNumber>
+      </div>
+
+      <div class="p-field form-el">
+        <label>Départ:</label>
+        <input pInputText [(ngModel)]="newIncident.departure" />
+      </div>
+
+      <div class="p-field form-el">
+        <label>Type A/S:</label>
+        <!-- <small>(A = Aérien, S = Souterrain)</small> -->
+        <!-- <input pInputText [(ngModel)]="newIncident.aSType" /> -->
+
+        <div style="display: flex; gap: 1rem; min-height: 39px">
+          <p-radioButton
+            name="aStype"
+            label="Aérien"
+            value="A"
+            [(ngModel)]="newIncident.aSType"
+          >
+          </p-radioButton>
+          <p-radioButton
+            name="aStype"
+            label="Souterrain"
+            value="S"
+            [(ngModel)]="newIncident.aSType"
+          >
+          </p-radioButton>
+        </div>
+      </div>
+
+      <div class="p-field form-el">
+        <label>Type Incident R+L+D:</label>
+        <!-- <input pInputText [(ngModel)]="newIncident.incidentType" /> -->
+        <!-- <p-multiSelect
+          inputId="multiselect"
+          [options]="incidentTypeOptions"
+          [(ngModel)]="newIncident.incidentType"
+          optionLabel="name"
+          [filter]="false"
+        ></p-multiSelect> -->
+
+        <p-selectButton
+          [options]="incidentTypeOptions"
+          [(ngModel)]="newIncident.incidentType"
+          [multiple]="true"
+          optionLabel="name"
+          optionValue="value"
+        ></p-selectButton>
+
+        <div ngClass="btns">
+          <button
+            pButton
+            type="button"
+            label="Enregistrer"
+            (click)="handleSave()"
+            [disabled]="isLoading$ | async"
+            ></button>
+          <button
+            pButton
+            type="button"
+            label="Réinitialiser"
+            ngClass="p-button-text p-button-plain"
+            (click)="initializeNewIncident()"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <p-scrollTop></p-scrollTop>
+
+<!-- <div class="p-field">
+<label for="username2">Username</label>
+<input class="ng-invalid ng-dirty" pInputText />
+<small class="p-error">Username is not available.</small>
+</div> -->

@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.primengConfig.ripple = true;
+    // this.primengConfig.ripple = true;
     // TODO: REMOTE BOTTOM TWO COMMENTS
     setTimeout(() => {
       this.justStarted = false;
