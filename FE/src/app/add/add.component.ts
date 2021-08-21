@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AppState } from '../app.component';
 import { Incident } from '../__models__/Incident.model';
 import { baseUrl } from '../__utils__/baseUrl';
+import { getCurrentDatetime } from '../__utils__/useful';
 import { incidentTypeOptions } from './../__utils__/incidentTypeOptions';
 
 interface CreateIncidentResponse {
@@ -58,6 +59,22 @@ export class AddComponent implements OnInit {
     };
   }
 
+  handleAutofill(key: string) {
+    const generatedDate = getCurrentDatetime();
+
+    switch (key) {
+      case 'startDatetime':
+        this.newIncident.startDatetime = generatedDate;
+        break;
+      case 'firstRecoveryDatetime':
+        this.newIncident.firstRecoveryDatetime = generatedDate;
+        break;
+      case 'endDatetime':
+        this.newIncident.endDatetime = generatedDate;
+        break;
+    }
+  }
+
   handleGoBack() {
     this.store.dispatch({ type: 'START_LOADING' });
 
@@ -72,7 +89,7 @@ export class AddComponent implements OnInit {
       !this.newIncident.sourcePost ||
       !this.newIncident.departure ||
       !this.newIncident.aSType ||
-      !this.newIncident.incidentType ||
+      this.newIncident.incidentType.length === 0 ||
       !this.newIncident.startDatetime ||
       !this.newIncident.firstRecoveryDatetime ||
       !this.newIncident.endDatetime ||
@@ -88,8 +105,11 @@ export class AddComponent implements OnInit {
         incidentType: (this.newIncident.incidentType as string[]).join(', '),
       };
 
+      const accessToken = localStorage.getItem('accessToken');
       axios
-        .post(`${baseUrl}/incidents`, incidentToSend)
+        .post(`${baseUrl}/incidents`, incidentToSend, {
+          headers: { Authorization: accessToken },
+        })
         .then((res: AxiosResponse<CreateIncidentResponse>) => {
           setTimeout(() => {
             this.show(

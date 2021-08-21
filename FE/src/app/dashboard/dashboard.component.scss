@@ -6,23 +6,63 @@
   max-width: 1000px;
   background-color: white;
   border-radius: 0.5rem;
-  
+
   .top-section {
     margin: 1.5rem 0;
     display: flex;
     justify-content: space-between;
 
     .nb-incidents {
-      font-size: .5em;
+      font-size: 0.5em;
     }
-    
+
     button {
-      border-radius: .25rem;
+      border-radius: 0.25rem;
     }
   }
 
   .divider {
     margin: 2.5rem 0 2rem;
+  }
+
+  .filter-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+
+    > div {
+      display: flex;
+      gap: 0.25rem;
+
+      input {
+        border-radius: 0.25rem;
+        border-color: #0000ff30;
+        font-size: bold;
+        width: 200px;
+        transition: width 200ms, max-width 200ms;
+
+        &:focus,
+        &:focus-visible,
+        &:focus-within {
+          width: 350px;
+        }
+      }
+    }
+
+    .btn-show-filter {
+      border-radius: 0.25rem;
+    }
+  }
+
+  .filter-body {
+    p {
+      margin: 0.75rem 0;
+    }
+
+    .search {
+      display: flex;
+      gap: 0.5rem;
+    }
   }
 
   .edit-icon {
@@ -33,7 +73,7 @@
 
   .if-table-empty {
     color: #323130;
-    padding: 1rem .5rem;
+    padding: 1rem 0.5rem;
   }
 }
 
@@ -44,6 +84,38 @@
 
     button {
       align-self: center;
+    }
+  }
+}
+
+@media all and (min-width: 406px) and (max-width: 550px) {
+  .filter-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    input {
+      &:focus,
+      &:focus-visible,
+      &:focus-within {
+        max-width: 320px;
+      }
+    }
+  }
+}
+
+@media all and (max-width: 405px) {
+  .filter-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+
+    input {
+      &:focus,
+      &:focus-visible,
+      &:focus-within {
+        width: 90vw !important;
+      }
     }
   }
 }
@@ -67,6 +139,7 @@
   border-radius: 0.75rem;
   height: 43px;
   width: 43px;
+  z-index: 1 !important;
 
   &:hover {
     color: #584d85 !important;
@@ -83,7 +156,6 @@
 }
 
 // SCROLLABLE TABLE
-
 :host ::ng-deep .p-datatable-wrapper::-webkit-scrollbar {
   // width: 6px;
   height: 8px !important;
@@ -116,4 +188,141 @@
     width: 250px !important;
     margin-right: 1rem !important;
   }
+}
+
+// MODAL
+:host
+  ::ng-deep
+  .ng-trigger.ng-trigger-animation.p-dialog.p-component.ng-star-inserted {
+  width: 90% !important;
+  max-width: 650px !important;
+  border-radius: 1rem;
+
+  .p-dialog-header {
+    border-radius: 0.25rem 0.25rem 0 0;
+  }
+
+  .p-dialog-footer {
+    border-radius: 0 0 0.25rem 0.25rem;
+
+    .dialog-btn {
+      border-radius: 0.25rem;
+      padding: 0.5rem 1rem;
+    }
+  }
+}
+
+:host ::ng-deep .p-dialog-content {
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+}
+
+:host
+  ::ng-deep
+  .p-button-text.p-button-plain.p-button-sm.dialog-btn.last.p-button.p-component.p-ripple {
+  border: none;
+}
+
+// SELECT
+@media all and (min-width: 581px) {
+  :host ::ng-deep .p-button.p-component.p-ripple {
+    margin-bottom: 0.1rem;
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+
+    &:first-of-type {
+      border: 1px solid rgb(96, 94, 92);
+      border-right: none;
+      border-radius: 0.25rem 0 0 0.25rem;
+    }
+
+    &:last-of-type {
+      border: 1px solid rgb(96, 94, 92);
+      border-left: none;
+      border-radius: 0 0.25rem 0.25rem 0;
+    }
+
+    border-left: none;
+    border-right: none;
+  }
+}
+
+@media all and (max-width: 580px) {
+  :host ::ng-deep .p-button.p-component.p-ripple {
+    border: 1px solid rgb(96, 94, 92);
+
+    &:first-of-type {
+      border: 1px solid rgb(96, 94, 92);
+      border-bottom: none;
+      border-radius: 0.25rem 0.25rem 0 0;
+    }
+
+    &:last-of-type {
+      border: 1px solid rgb(96, 94, 92);
+      border-top: none;
+      border-radius: 0 0 0.25rem 0.25rem;
+    }
+
+    border-top: none;
+    border-bottom: none;
+  }
+
+  :host ::ng-deep .p-button.p-component.p-ripple.ng-star-inserted {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+:host ::ng-deep .p-paginator {
+  border-radius: 0.25rem;
+}
+
+:host ::ng-deep .p-paginator.p-highlight,
+:host ::ng-deep .p-paginator-element.p-highlight {
+  z-index: 0 !important;
+}
+
+// PAGINATOR
+@media all and (max-width: 420px) {
+  :host ::ng-deep .p-paginator {
+    font-size: 0.9rem !important;
+  }
+
+  :host ::ng-deep .p-paginator-first {
+    margin-left: 100%;
+    margin-right: 100%;
+  }
+
+  :host ::ng-deep .p-paginator-last {
+    margin-right: 100%;
+    margin-left: 100%;
+  }
+}
+
+// SELECT
+:host ::ng-deep .p-multiselect.p-component {
+  border-radius: 0.25rem !important;
+  font-size: bold !important;
+  max-width: 100%;
+}
+
+:host ::ng-deep .p-multiselect-items-wrapper,
+:host ::ng-deep .p-dropdown-items-wrapper {
+  height: 140px;
+  max-width: 100%;
+}
+
+:host ::ng-deep .p-dropdown.p-component {
+  max-width: 100%;
+  border-radius: 0.25rem;
+}
+
+// :host ::ng-deep .p-multiselect-label.ng-tns-c102-2.p-placeholder {
+//   border-radius: 0.25rem !important;
+//   border-color: #0000ff30 !important;
+//   font-size: bold !important;
+// }
+
+:host ::ng-deep .p-button.p-button-icon-only {
+  border-radius: 0.25rem !important;
 }

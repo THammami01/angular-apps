@@ -19,33 +19,73 @@
   <div ngClass="inputs-groups-container">
     <div ngClass="inputs-group">
       <div class="p-field form-el">
-        <label>Début: <small>(jj/mm/aaaa hh:mm)</small></label>
-        <p-inputMask
-          mask="99/99/9999 99:99"
-          [(ngModel)]="newIncident.startDatetime"
-        ></p-inputMask>
+        <label>Début:</label>
+        <div ngClass="auto-filled-el">
+          <p-inputMask
+            slotChar="jj/mm/aaaa hh:mm"
+            mask="99/99/9999 99:99"
+            [(ngModel)]="newIncident.startDatetime"
+          ></p-inputMask>
+          <i
+            *ngIf="!newIncident.startDatetime"
+            class="pi pi-replay"
+            style="font-size: 1.5rem; color: rgba(96, 94, 92, 0.6)"
+            pTooltip="Remplir avec la date d'aujourd'hui"
+            tooltipPosition="right"
+            [showDelay]="5000"
+            [hideDelay]="500"
+            (click)="handleAutofill('startDatetime')"
+          ></i>
+        </div>
       </div>
 
       <div class="p-field form-el">
-        <label>1er Rétablissement: <small>(jj/mm/aaaa hh:mm)</small></label>
-        <p-inputMask
-          mask="99/99/9999 99:99"
-          [(ngModel)]="newIncident.firstRecoveryDatetime"
-        ></p-inputMask>
+        <label>1er Rétablissement:</label>
+        <div ngClass="auto-filled-el">
+          <p-inputMask
+            slotChar="jj/mm/aaaa hh:mm"
+            mask="99/99/9999 99:99"
+            [(ngModel)]="newIncident.firstRecoveryDatetime"
+          ></p-inputMask>
+          <i
+            *ngIf="!newIncident.firstRecoveryDatetime"
+            class="pi pi-replay"
+            style="font-size: 1.5rem; color: rgba(96, 94, 92, 0.6)"
+            pTooltip="Remplir avec la date d'aujourd'hui"
+            tooltipPosition="right"
+            [showDelay]="5000"
+            [hideDelay]="500"
+            (click)="handleAutofill('firstRecoveryDatetime')"
+          ></i>
+        </div>
       </div>
 
       <div class="p-field form-el">
-        <label>Fin: <small>(jj/mm/aaaa hh:mm)</small></label>
-        <p-inputMask
-          mask="99/99/9999 99:99"
-          [(ngModel)]="newIncident.endDatetime"
-        ></p-inputMask>
+        <label>Fin:</label>
+        <div ngClass="auto-filled-el">
+          <p-inputMask
+            slotChar="jj/mm/aaaa hh:mm"
+            mask="99/99/9999 99:99"
+            [(ngModel)]="newIncident.endDatetime"
+          ></p-inputMask>
+          <i
+            *ngIf="!newIncident.endDatetime"
+            class="pi pi-replay"
+            style="font-size: 1.5rem; color: rgba(96, 94, 92, 0.6)"
+            pTooltip="Remplir avec la date d'aujourd'hui"
+            tooltipPosition="right"
+            [showDelay]="5000"
+            [hideDelay]="500"
+            (click)="handleAutofill('endDatetime')"
+          ></i>
+        </div>
       </div>
 
       <div class="p-field form-el">
         <label>Courant Coupé:</label>
         <p-inputNumber
           [(ngModel)]="newIncident.cutOff"
+          suffix=" A"
           [useGrouping]="false"
           [minFractionDigits]="1"
         ></p-inputNumber>
@@ -55,6 +95,7 @@
         <label>Courant 1er Rétablissmenent:</label>
         <p-inputNumber
           [(ngModel)]="newIncident.recovery"
+          suffix=" A"
           [useGrouping]="false"
           [minFractionDigits]="1"
         ></p-inputNumber>

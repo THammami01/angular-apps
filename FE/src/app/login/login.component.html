@@ -12,7 +12,7 @@
       [pKeyFilter]="blockSpace"
       ngClass="p-input-filled"
       (keyup.enter)="handleLogin()"
-      [(ngModel)]="formFields.userId"
+      [(ngModel)]="formFields.userId"      
     />
 
     <!-- @ts-ignore -->
@@ -37,7 +37,10 @@
         class="pi pi-spin pi-spinner"
         style="font-size: 1rem; position: absolute"
       ></i>
-      <p style="text-align: center; width: 100% !important">S'authentifier</p>
+      <p style="text-align: center; width: 100% !important">
+        S'authentifier
+        <i class="pi pi-sign-in" style="margin-left: .5rem; transform: translateY(2px);"></i>
+      </p>
     </button>
   </div>
 </div>

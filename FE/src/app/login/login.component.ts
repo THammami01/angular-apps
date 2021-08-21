@@ -58,6 +58,7 @@ export class LoginComponent implements OnInit {
       this.show('info', "Entrer le mot de passe d'abord.");
     else {
       this.showProgressBar();
+
       axios
         .post(`${baseUrl}/auth/login`, this.formFields)
         .then((res: AxiosResponse<ResData>) => {
@@ -76,7 +77,6 @@ export class LoginComponent implements OnInit {
           }
         })
         .catch((err: AxiosError) => {
-          console.log(err);
           this.hideProgressBar(() => {
             this.show('error', 'Une erreur est survenue.');
           });

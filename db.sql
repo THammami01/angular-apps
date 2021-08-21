@@ -10,12 +10,13 @@ CREATE TABLE User(
 	userPwd VARCHAR(255) NOT NULL
 );
 
+UPDATE User SET userPwd = 'admin' WHERE userNb = 1 AND userId = 'admin' AND userPwd = 'admin2';
 DESC User;
 SELECT * FROM User;
 DROP TABLE User;
 
 INSERT INTO User(userId, userPwd)
-VALUES("admin5", "admin5");
+VALUES("admin", "admin");
 
 
 CREATE TABLE Incident(
@@ -46,7 +47,8 @@ DROP TABLE Incident;
 SELECT MAX(incidentNb) FROM Incident;
 
 INSERT INTO Incident VALUES(
-	1, "Mnihla", 30.5, "K. Andalous", "A", "DRR, DRL, DD", "14/08/2021 20:07",
-	"14/08/2021 22:00", "14/08/2021 23:30", 51, 12, "entre T2 et T3", "......"
+	31, "Mnihla", 30.5, "K. Andalous", "A", "DRR, DRL, DD", "13/07/2020 20:07",
+	"13/07/2020 22:00", "13/07/2020 23:30", 51, 12, "entre T2 et T3", "......"
 );
+
 

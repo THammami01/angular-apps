@@ -112,6 +112,20 @@
         }
       }
 
+      .auto-filled-el {
+        display: flex;
+        gap: 0.5rem;
+        align-items: center;
+
+        p-inputMask {
+          width: 100%;
+        }
+
+        i {
+          cursor: pointer;
+        }
+      }
+
       .btns {
         min-height: 66px;
         display: flex;
@@ -156,6 +170,7 @@
   border-radius: 0.75rem;
   height: 43px;
   width: 43px;
+  z-index: 1 !important;
 
   &:hover {
     color: #584d85 !important;

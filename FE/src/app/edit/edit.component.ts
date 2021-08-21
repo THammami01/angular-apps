@@ -8,6 +8,7 @@ import { incidentTypeOptions } from '../__utils__/incidentTypeOptions';
 import { Incident } from '../__models__/Incident.model';
 import { baseUrl } from '../__utils__/baseUrl';
 import { Observable } from 'rxjs';
+import { getCurrentDatetime } from '../__utils__/useful';
 
 interface UpdateIncidentResponse {
   status: string;
@@ -46,15 +47,17 @@ export class EditComponent implements OnInit {
       this.id = +params['id'];
     });
 
+    const accessToken = localStorage.getItem('accessToken');
     axios
-      .get(`${baseUrl}/incidents/${this.id}`)
+      .get(`${baseUrl}/incidents/${this.id}`, {
+        headers: { Authorization: accessToken },
+      })
       .then((res: AxiosResponse<GetIncidentResponse>) => {
         if (res.data.incident.length === 1) {
+          const incidentType = res.data.incident[0].incidentType as string;
           const incident = {
             ...res.data.incident[0],
-            incidentType: (res.data.incident[0].incidentType as string).split(
-              ', '
-            ),
+            incidentType: incidentType === '' ? [] : incidentType.split(', '),
           };
 
           this.newIncident = incident;
@@ -69,6 +72,22 @@ export class EditComponent implements OnInit {
     document.title = `STEG ‣ Incident ${this.id}`;
   }
 
+  handleAutofill(key: string) {
+    const generatedDate = getCurrentDatetime();
+
+    switch (key) {
+      case 'startDatetime':
+        this.newIncident.startDatetime = generatedDate;
+        break;
+      case 'firstRecoveryDatetime':
+        this.newIncident.firstRecoveryDatetime = generatedDate;
+        break;
+      case 'endDatetime':
+        this.newIncident.endDatetime = generatedDate;
+        break;
+    }
+  }
+
   initializeNewIncident() {
     this.newIncident = {
       incidentNb: 0,
@@ -76,7 +95,7 @@ export class EditComponent implements OnInit {
       voltage: 0,
       departure: '',
       aSType: '',
-      incidentType: '',
+      incidentType: [],
       startDatetime: '',
       firstRecoveryDatetime: '',
       endDatetime: '',
@@ -101,7 +120,7 @@ export class EditComponent implements OnInit {
       !this.newIncident.sourcePost ||
       !this.newIncident.departure ||
       !this.newIncident.aSType ||
-      !this.newIncident.incidentType ||
+      this.newIncident.incidentType.length === 0 ||
       !this.newIncident.startDatetime ||
       !this.newIncident.firstRecoveryDatetime ||
       !this.newIncident.endDatetime ||
@@ -117,13 +136,16 @@ export class EditComponent implements OnInit {
         incidentType: (this.newIncident.incidentType as string[]).join(', '),
       };
 
+      const accessToken = localStorage.getItem('accessToken');
       axios
-        .patch(`${baseUrl}/incidents`, incidentToSend)
+        .patch(`${baseUrl}/incidents`, incidentToSend, {
+          headers: { Authorization: accessToken },
+        })
         .then((res: AxiosResponse<UpdateIncidentResponse>) => {
           setTimeout(() => {
             this.show(
               'success',
-              `Enregistrement d'identifiant ${this.id} modifié avec succès.`
+              `Enregistrement ${this.id} modifié avec succès.`
             );
             this.store.dispatch({ type: 'STOP_LOADING' });
           }, 500);

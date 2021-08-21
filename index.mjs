@@ -30,20 +30,9 @@ export const db = mysql.createConnection({
 app.get("/", (req, res) => {
   res.sendFile("index.html", { root: path.resolve(path.dirname("")) });
   // res.send({
-  //   status: "Running.."
-  // })
+  //   status: "Running..",
+  // });
 });
-
-export const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization;
-  if (token == null) return res.sendStatus(401); // Unauthorized
-
-  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
-    if (err) return res.sendStatus(403); // Forbidden
-    req.user = user;
-    next();
-  });
-};
 
 app.get("/*", function (req, res) {
   res.sendFile(

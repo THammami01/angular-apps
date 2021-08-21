@@ -4,7 +4,11 @@
   <div ngClass="top-section">
     <h1>
       Liste des incidents
-      <span ngClass="nb-incidents">[{{ incidents.length }}]</span>
+      <span ngClass="nb-incidents"
+        >#{{ selectedDateOption.toUpperCase().replace(" ", "_") }} [{{
+          nbOfIncident
+        }}]</span
+      >
     </h1>
     <button
       pButton
@@ -19,9 +23,120 @@
     <p-divider></p-divider>
   </div>
 
+  <div class="filter-section">
+    <div>
+      <span class="p-input-icon-left">
+        <i class="pi pi-search"></i>
+        <input
+        type="text"
+        pInputText
+        placeholder="Rechercher"
+        [(ngModel)]="searchKey"
+        [draggable]="true"
+        />
+      </span>
+    </div>
+    
+    <button
+    pButton
+    label="Plus"
+    icon="pi pi-sliders-v"
+    class="p-button-outlined btn-show-filter p-button-sm"
+    (click)="displayModal()"
+    ></button>
+  </div>
+  
+  <!-- MODAL START -->
+  <p-dialog
+    header="Filtrage des incidents"
+    [(visible)]="isModalDisplayed"
+    [modal]="true"
+    [draggable]="false"
+    [resizable]="false"
+    ngClass="filter-body"
+    style="padding: 1rem 0"
+    (onHide)="saveParams()"
+  >
+    <p>
+      Rechercher avec:<br /><small
+        >NB: Choisir aucun est similire à choisir tous.</small
+      >
+    </p>
+
+    <p-multiSelect
+      [options]="searchOptions"
+      [(ngModel)]="selectedSearchOptions"
+      optionLabel="name"
+      [filter]="false"
+      placeholder="Sélectionner des clés.."
+    ></p-multiSelect>
+
+    <p>Trier avec:</p>
+
+    <div ngClass="search">
+      <p-dropdown
+        [options]="searchOptions"
+        [(ngModel)]="selectedOrderByOption"
+        optionLabel="name"
+        [filter]="false"
+      ></p-dropdown>
+
+      <div>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-arrow-up"
+          class="p-button-text p-button-plain"
+          [disabled]="selectedOrderByDirction === 'Asc.'"
+          (click)="selectedOrderByDirction = 'Asc.'"
+          pTooltip="Ascendent"
+          tooltipPosition="right"
+          [showDelay]="5000"
+          [hideDelay]="500"
+        ></button>
+        <button
+          pButton
+          type="button"
+          icon="pi pi-arrow-down"
+          class="p-button-text p-button-plain"
+          [disabled]="selectedOrderByDirction === 'Desc.'"
+          (click)="selectedOrderByDirction = 'Desc.'"
+          pTooltip="Descendent"
+          tooltipPosition="right"
+          [showDelay]="5000"
+          [hideDelay]="500"
+        ></button>
+      </div>
+    </div>
+
+    <p>
+      Afficher seulement les incidents d'/de: <br /><small
+        >NB: Qui ont commencé ou se sont terminés dans cette période.</small
+      >
+    </p>
+    <p-selectButton
+      [options]="datesOptions"
+      [(ngModel)]="selectedDateOption"
+      optionLabel="label"
+      optionValue="value"
+    ></p-selectButton>
+
+    <p>Nombre d'éléments par page:</p>
+
+    <p-selectButton
+      [options]="nbPerPageOptions"
+      [(ngModel)]="selectedNbPerPage"
+      optionLabel="label"
+      optionValue="value"
+    ></p-selectButton>
+
+    <!-- <ng-template pTemplate="footer"> </ng-template> -->
+  </p-dialog>
+  <!-- MODAL END -->
+
   <p-table
-    *ngIf="incidents !== null"
-    [value]="incidents"
+    *ngIf="filteredIncidents !== null"
+    [value]="filteredIncidents"
     [scrollable]="true"
     [style]="{ width: '100%' }"
   >
@@ -55,15 +170,15 @@
       <tr>
         <td style="min-width: 80px">{{ incident.incidentNb }}</td>
         <td style="min-width: 150px">{{ incident.sourcePost }}</td>
-        <td style="min-width: 100px">{{ incident.voltage }} V</td>
+        <td style="min-width: 100px">{{ incident.voltage }} KV</td>
         <td style="min-width: 150px">{{ incident.departure }}</td>
         <td style="min-width: 80px">{{ incident.aSType }}</td>
         <td style="min-width: 175px">{{ incident.incidentType }}</td>
         <td style="min-width: 150px">{{ incident.startDatetime }}</td>
         <td style="min-width: 150px">{{ incident.firstRecoveryDatetime }}</td>
         <td style="min-width: 150px">{{ incident.endDatetime }}</td>
-        <td style="min-width: 125px">{{ incident.cutOff }}</td>
-        <td style="min-width: 125px">{{ incident.recovery }}</td>
+        <td style="min-width: 125px">{{ incident.cutOff }} A</td>
+        <td style="min-width: 125px">{{ incident.recovery }} A</td>
         <td style="min-width: 150px">{{ incident.section }}</td>
         <td style="min-width: 250px">{{ incident.observations }}</td>
 
@@ -97,10 +212,20 @@
       </tr>
     </ng-template>
   </p-table>
-  <p *ngIf="!incidents.length" ngClass="if-table-empty">
+  <p *ngIf="!filteredIncidents.length" ngClass="if-table-empty">
     Aucun enregistrement à afficher.
   </p>
+
+  <div style="margin: 1rem 0">
+    <p-paginator
+      [rows]="selectedNbPerPage === 'Tous' ? nbOfIncident : +selectedNbPerPage"
+      [totalRecords]="nbOfIncident"
+      (onPageChange)="paginate($event)"
+      [pageLinkSize]="3"
+      [showCurrentPageReport]="false"
+    ></p-paginator>
+  </div>
 </div>
 
 <p-confirmPopup [style]="{ 'font-size': '.8rem' }"></p-confirmPopup>
-<p-scrollTop></p-scrollTop>
+<p-scrollTop #scrollToTop></p-scrollTop>

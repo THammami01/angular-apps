@@ -27,6 +27,14 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { RadioButtonModule } from 'primeng/radiobutton';
+import { DialogModule } from 'primeng/dialog';
+import { PaginatorModule } from 'primeng/paginator';
+import { DropdownModule } from 'primeng/dropdown';
+import { TooltipModule } from 'primeng/tooltip';
+import { AvatarModule } from 'primeng/avatar';
+import { MenuModule } from 'primeng/menu';
+import { ChipModule } from 'primeng/chip';
+import { PasswordModule } from 'primeng/password';
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -75,6 +83,14 @@ import { AddComponent } from './add/add.component';
     MultiSelectModule,
     SelectButtonModule,
     RadioButtonModule,
+    DialogModule,
+    PaginatorModule,
+    DropdownModule,
+    TooltipModule,
+    AvatarModule,
+    MenuModule,
+    ChipModule,
+    PasswordModule,
   ],
   bootstrap: [AppComponent],
 })

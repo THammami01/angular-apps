@@ -7,10 +7,11 @@ import {
   updateIncident,
   deleteIncident,
 } from "../__db__/incidents.mjs";
+import { authMiddleware } from "./auth.mjs";
 
 const router = express.Router();
 
-router.get("/", (req, res) => {
+router.get("/", authMiddleware, (req, res) => {
   getIncidents()
     .then((incidentsArr) => {
       res.send({ incidents: JSON.parse(JSON.stringify(incidentsArr)) });
@@ -20,7 +21,7 @@ router.get("/", (req, res) => {
     });
 });
 
-router.get("/:incidentNb", (req, res) => {
+router.get("/:incidentNb", authMiddleware, (req, res) => {
   const { incidentNb } = req.params;
 
   getIncident(incidentNb)
@@ -32,7 +33,7 @@ router.get("/:incidentNb", (req, res) => {
     });
 });
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
   const newIncident = req.body;
 
   try {
@@ -43,19 +44,17 @@ router.post("/", async (req, res) => {
 
   addIncident(newIncident)
     .then((data) => {
-      res
-        .status(201)
-        .send({
-          status: "Added Successfully",
-          incidentNb: newIncident.incidentNb,
-        });
+      res.status(201).send({
+        status: "Added Successfully",
+        incidentNb: newIncident.incidentNb,
+      });
     })
     .catch((err) => {
       res.sendStatus(500);
     });
 });
 
-router.patch("/", async (req, res) => {
+router.patch("/", authMiddleware, async (req, res) => {
   const newIncident = req.body;
 
   updateIncident(newIncident)
