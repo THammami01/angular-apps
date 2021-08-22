@@ -8,7 +8,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { baseUrl } from '../__utils__/baseUrl';
 import { Incident } from '../__models__/Incident.model';
 import { getMonday, flattenObject, dynamicSort } from './../__utils__/useful';
-// import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 // interface User {
 //   userNb: number;
@@ -96,6 +96,8 @@ export class DashboardComponent implements OnInit {
     if (!localStorage.getItem('accessToken')) {
       this.router.navigate(['']);
     }
+
+    this.checkToken();
 
     if (this.route.snapshot.queryParamMap.get('newlyConnected') === 'true') {
       setTimeout(() => {
@@ -289,7 +291,6 @@ export class DashboardComponent implements OnInit {
       acceptLabel: 'Oui',
       rejectLabel: 'Non',
       accept: () => {
-
         const accessToken = localStorage.getItem('accessToken');
         axios
           .delete(`${baseUrl}/incidents/${incidentNb}`, {
@@ -326,5 +327,26 @@ export class DashboardComponent implements OnInit {
       this.router.navigate(['incidents', 'add']);
       this.store.dispatch({ type: 'STOP_LOADING' });
     }, 1000);
+  }
+
+  checkToken() {
+    const currTimestamp = new Date().getTime();
+    const tokenExpiresInTimestamp =
+      // @ts-ignore
+      jwt_decode(localStorage.getItem('accessToken')).exp * 1000;
+    if (currTimestamp >= tokenExpiresInTimestamp) {
+      this.show('info', 'Votre session a expirée.');
+      this.store.dispatch({ type: 'START_LOADING' });
+
+      setTimeout(() => {
+        this.store.dispatch({ type: 'SET_LOGGED_OUT' });
+        localStorage.removeItem('accessToken');
+
+        this.router.navigate([''], {
+          queryParams: { sessionExpired: true },
+        });
+        this.store.dispatch({ type: 'STOP_LOADING' });
+      }, 2000);
+    }
   }
 }

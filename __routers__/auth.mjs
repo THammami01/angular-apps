@@ -23,7 +23,7 @@ const router = express.Router();
 
 const generateAccessToken = (user) => {
   const accessToken = jwt.sign({ user }, ACCESS_TOKEN_SECRET, {
-    expiresIn: "24h",
+    expiresIn: "4h",
   });
   return accessToken;
 };

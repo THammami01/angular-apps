@@ -9,6 +9,7 @@ import { Incident } from '../__models__/Incident.model';
 import { baseUrl } from '../__utils__/baseUrl';
 import { getCurrentDatetime } from '../__utils__/useful';
 import { incidentTypeOptions } from './../__utils__/incidentTypeOptions';
+import jwt_decode from 'jwt-decode';
 
 interface CreateIncidentResponse {
   status: string;
@@ -39,6 +40,8 @@ export class AddComponent implements OnInit {
     this.initializeNewIncident();
 
     document.title = `STEG ‣ Ajout d'incident`;
+
+    this.checkToken();
   }
 
   initializeNewIncident() {
@@ -134,5 +137,26 @@ export class AddComponent implements OnInit {
       severity: type,
       summary: msg,
     });
+  }
+
+  checkToken() {
+    const currTimestamp = new Date().getTime();
+    const tokenExpiresInTimestamp =
+      // @ts-ignore
+      jwt_decode(localStorage.getItem('accessToken')).exp * 1000;
+    if (currTimestamp >= tokenExpiresInTimestamp) {
+      this.show('info', 'Votre session a expirée.');
+      this.store.dispatch({ type: 'START_LOADING' });
+
+      setTimeout(() => {
+        this.store.dispatch({ type: 'SET_LOGGED_OUT' });
+        localStorage.removeItem('accessToken');
+
+        this.router.navigate([''], {
+          queryParams: { sessionExpired: true },
+        });
+        this.store.dispatch({ type: 'STOP_LOADING' });
+      }, 2000);
+    }
   }
 }

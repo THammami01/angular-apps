@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { fadeSlideInOutAnimation } from './../__utils__/animations';
 import axios, { AxiosResponse, AxiosError } from 'axios';
 // import jwt_decode from 'jwt-decode';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -34,6 +34,7 @@ export class LoginComponent implements OnInit {
   constructor(
     private messageService: MessageService,
     private store: Store<AppState>,
+    private route: ActivatedRoute,
     private router: Router
   ) {
     this.isLoading$ = this.store.select('loader');
@@ -44,6 +45,12 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['incidents']);
     } else {
       document.title = 'STEG ‣ Connexion';
+
+      if (this.route.snapshot.queryParamMap.get('sessionExpired') === 'true') {
+        setTimeout(() => {
+          this.show('info', 'Votre session a expiré.');
+        }, 1000);
+      }
     }
   }
 
