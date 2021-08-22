@@ -73,9 +73,9 @@ export class AppComponent implements OnInit {
     // this.primengConfig.ripple = true;
     // TODO: REMOVE BOTTOM TWO COMMENTS
 
-    setTimeout(() => {
+    // setTimeout(() => {
       this.justStarted = false;
-    }, 3000);
+    // }, 3000);
 
     if (localStorage.getItem('accessToken')) {
       this.store.dispatch({ type: 'SET_LOGGED_IN' });

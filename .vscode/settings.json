@@ -14,7 +14,7 @@
     "FE/README.md": true,
 
     "FE/src/environments": true,
-    "FE/src/favicon.ico": true,
+    // "FE/src/favicon.ico": true,
     "FE/src/polyfills.ts": true,
     "FE/src/test.ts": true,
     "FE/.vscode": true,
