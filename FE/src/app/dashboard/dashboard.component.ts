@@ -105,7 +105,7 @@ export class DashboardComponent implements OnInit {
       }, 1000);
     }
 
-    document.title = 'STEG ‣ Liste des incidents';
+    document.title = 'SGP ‣ Liste des patients';
 
     const accessToken = localStorage.getItem('accessToken');
     axios
@@ -277,7 +277,7 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch({ type: 'START_LOADING' });
 
     setTimeout(() => {
-      this.router.navigate(['incidents', incidentNb, 'edit']);
+      this.router.navigate(['patients', incidentNb, 'edit']);
       this.store.dispatch({ type: 'STOP_LOADING' });
     }, 1000);
   }
@@ -324,7 +324,7 @@ export class DashboardComponent implements OnInit {
     this.store.dispatch({ type: 'START_LOADING' });
 
     setTimeout(() => {
-      this.router.navigate(['incidents', 'add']);
+      this.router.navigate(['patients', 'add']);
       this.store.dispatch({ type: 'STOP_LOADING' });
     }, 1000);
   }

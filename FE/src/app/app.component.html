@@ -10,15 +10,16 @@
 
 <div ngClass="navbar">
   <div>
-    <img src="assets/imgs/steg-logo.png" alt="STEG" (click)="handleGoHome()" />
+    <img src="assets/imgs/logo.png" alt="STEG" (click)="handleGoHome()" />
 
     <div ngClass="nav-rightside" *ngIf="isLoggedIn$ | async">
       <p-chip
-        label="Administrateur"
+        [label]="connectedUser.chipText"
         (click)="menu.toggle($event)"
         style="cursor: pointer"
-        icon="pi pi-user"
-      ></p-chip>
+        [image]="'assets/imgs/' + connectedUser.chipImage"
+        ></p-chip>
+        <!-- icon="pi pi-user" -->
       <p-avatar
         icon="pi pi-ellipsis-v"
         shape="circle"
@@ -112,5 +113,6 @@
 <router-outlet *ngIf="!justStarted"></router-outlet>
 
 <div ngClass="bottom-title">
-  <p>Gestion des incidents sur le réseau HTA.</p>
+  <!-- <p>Gestion des Patients - Cabinet Dr. Mahdi Kaabi</p> -->
+  <p>Gestion des ABCDEFGH - ABCDEFG AB. X Y</p>
 </div>

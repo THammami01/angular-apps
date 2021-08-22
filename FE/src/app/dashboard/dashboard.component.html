@@ -3,7 +3,7 @@
 <div ngClass="container">
   <div ngClass="top-section">
     <h1>
-      Liste des incidents
+      Liste des patients
       <span ngClass="nb-incidents"
         >#{{ selectedDateOption.toUpperCase().replace(" ", "_") }} [{{
           nbOfIncident
@@ -28,27 +28,27 @@
       <span class="p-input-icon-left">
         <i class="pi pi-search"></i>
         <input
-        type="text"
-        pInputText
-        placeholder="Rechercher"
-        [(ngModel)]="searchKey"
-        [draggable]="true"
+          type="text"
+          pInputText
+          placeholder="Rechercher"
+          [(ngModel)]="searchKey"
+          [draggable]="true"
         />
       </span>
     </div>
-    
+
     <button
-    pButton
-    label="Plus"
-    icon="pi pi-sliders-v"
-    class="p-button-outlined btn-show-filter p-button-sm"
-    (click)="displayModal()"
+      pButton
+      label="Plus"
+      icon="pi pi-sliders-v"
+      class="p-button-outlined btn-show-filter p-button-sm"
+      (click)="displayModal()"
     ></button>
   </div>
-  
+
   <!-- MODAL START -->
   <p-dialog
-    header="Filtrage des incidents"
+    header="Filtrage des patients"
     [(visible)]="isModalDisplayed"
     [modal]="true"
     [draggable]="false"
@@ -71,7 +71,7 @@
       placeholder="Sélectionner des clés.."
     ></p-multiSelect>
 
-    <p>Trier avec:</p>
+    <p>Trier par:</p>
 
     <div ngClass="search">
       <p-dropdown
@@ -109,11 +109,7 @@
       </div>
     </div>
 
-    <p>
-      Afficher seulement les incidents d'/de: <br /><small
-        >NB: Qui ont commencé ou se sont terminés dans cette période.</small
-      >
-    </p>
+    <p>Afficher seulement les patients enregistrés:</p>
     <p-selectButton
       [options]="datesOptions"
       [(ngModel)]="selectedDateOption"

@@ -65,14 +65,14 @@ export class EditComponent implements OnInit {
 
           this.newIncident = incident;
         } else {
-          this.router.navigate(['incidents']);
+          this.router.navigate(['patients']);
         }
       })
       .catch((err: AxiosError) => {
         this.show('error', 'Une erreur est survenue.');
       });
 
-    document.title = `STEG ‣ Incident ${this.id}`;
+    document.title = `SGP ‣ Patient ${this.id}`;
   }
 
   handleAutofill(key: string) {

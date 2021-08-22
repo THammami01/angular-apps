@@ -23,6 +23,7 @@ export interface AppState {
 export class AppComponent implements OnInit {
   isLoading$: Observable<boolean>;
   isLoggedIn$: Observable<boolean>;
+  connectedUser!: { chipText: string; chipImage: string };
   justStarted = true;
   items: MenuItem[] = [
     {
@@ -74,7 +75,7 @@ export class AppComponent implements OnInit {
     // TODO: REMOVE BOTTOM TWO COMMENTS
 
     // setTimeout(() => {
-      this.justStarted = false;
+    this.justStarted = false;
     // }, 3000);
 
     if (localStorage.getItem('accessToken')) {
@@ -83,7 +84,23 @@ export class AppComponent implements OnInit {
       this.store.dispatch({ type: 'SET_LOGGED_OUT' });
     }
 
-    // this.message$.subscribe((v) => console.log('MSG', v));
+    this.isLoggedIn$.subscribe(() => {
+      if (localStorage.getItem('accessToken')) {
+        // @ts-ignore
+        const { userNb } = jwt_decode(localStorage.getItem('accessToken')).user;
+        if (userNb === 1) {
+          this.connectedUser = {
+            chipText: 'Dr. Mahdi Kaabi',
+            chipImage: 'doctor.png',
+          };
+        } else {
+          this.connectedUser = {
+            chipText: 'Mme Awatef Nasri',
+            chipImage: 'secretary.png',
+          };
+        }
+      }
+    });
   }
 
   hideChangePwdModalDisplayed = () => {
@@ -99,6 +116,8 @@ export class AppComponent implements OnInit {
 
     if (!oldPwd || !newPwd || !newPwdAgain) {
       this.show('info', "Remplir tous les champs d'abord.");
+    } else if(newPwd !==  newPwdAgain) {
+      this.show('info', "Les valeurs du nouveau mot de passe ne correspondent pas.");
     } else if (oldPwd === newPwd || oldPwd === newPwdAgain) {
       this.show(
         'info',

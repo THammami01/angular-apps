@@ -1,7 +1,7 @@
 import { db } from "../index.mjs";
 
 export const getIncidents = () => {
-  const sql = `SELECT * FROM Incident ORDER BY incidentNb DESC;`;
+  const sql = `SELECT * FROM Patient ORDER BY incidentNb DESC;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, (err, results) => {
@@ -12,7 +12,7 @@ export const getIncidents = () => {
 };
 
 export const getIncident = (incidentNb) => {
-  const sql = `SELECT * FROM Incident WHERE incidentNb = ?;`;
+  const sql = `SELECT * FROM Patient WHERE incidentNb = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, [incidentNb], (err, results) => {
@@ -23,7 +23,7 @@ export const getIncident = (incidentNb) => {
 };
 
 export const addIncident = (newIncident) => {
-  const sql = `INSERT INTO Incident SET ?;`;
+  const sql = `INSERT INTO Patient SET ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, newIncident, (err, results) => {
@@ -34,7 +34,7 @@ export const addIncident = (newIncident) => {
 };
 
 export const updateIncident = (newIncident) => {
-  const sql = `UPDATE Incident SET ? WHERE incidentNb = ?;`;
+  const sql = `UPDATE Patient SET ? WHERE incidentNb = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, [newIncident, newIncident.incidentNb], (err, results) => {
@@ -45,7 +45,7 @@ export const updateIncident = (newIncident) => {
 };
 
 export const getMaxIncidentNb = () => {
-  const sql = `SELECT MAX(incidentNb) AS maxIncidentNb FROM Incident;`;
+  const sql = `SELECT MAX(incidentNb) AS maxIncidentNb FROM Patient;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, (err, results) => {
@@ -56,7 +56,7 @@ export const getMaxIncidentNb = () => {
 };
 
 export const deleteIncident = (incidentNb) => {
-  const sql = `DELETE FROM Incident WHERE incidentNb = ?;`;
+  const sql = `DELETE FROM Patient WHERE incidentNb = ?;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, [incidentNb], (err, res) => {

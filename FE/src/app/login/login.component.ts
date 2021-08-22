@@ -42,9 +42,9 @@ export class LoginComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem('accessToken')) {
-      this.router.navigate(['incidents']);
+      this.router.navigate(['patients']);
     } else {
-      document.title = 'STEG ‣ Connexion';
+      document.title = 'SGP ‣ Connexion';
 
       if (this.route.snapshot.queryParamMap.get('sessionExpired') === 'true') {
         setTimeout(() => {
@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit {
             this.hideProgressBar(() => {
               localStorage.setItem('accessToken', res.data.accessToken);
               this.store.dispatch({ type: 'SET_LOGGED_IN' });
-              this.router.navigate(['incidents'], {
+              this.router.navigate(['patients'], {
                 queryParams: { newlyConnected: true },
               });
             });

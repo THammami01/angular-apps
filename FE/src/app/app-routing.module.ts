@@ -8,10 +8,10 @@ import { EditComponent } from './edit/edit.component';
 
 const routes: Routes = [
   { path: '', component: LoginComponent },
-  { path: 'incidents', pathMatch: 'full', redirectTo: 'incidents/view-all' },
-  { path: 'incidents/view-all', component: DashboardComponent },
-  { path: 'incidents/add', component: AddComponent },
-  { path: 'incidents/:id/edit', component: EditComponent },
+  { path: 'patients', pathMatch: 'full', redirectTo: 'patients/view-all' },
+  { path: 'patients/view-all', component: DashboardComponent },
+  { path: 'patients/add', component: AddComponent },
+  { path: 'patients/:id/edit', component: EditComponent },
   // { path: '**', pathMatch: 'full', component: PageNotFoundComponent },
   { path: '**', pathMatch: 'full', redirectTo: '' },
 ];

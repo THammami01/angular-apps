@@ -39,7 +39,7 @@ export class AddComponent implements OnInit {
     window.scrollTo(0, 0);
     this.initializeNewIncident();
 
-    document.title = `STEG ‣ Ajout d'incident`;
+    document.title = `SGP ‣ Ajout d'un patient`;
 
     this.checkToken();
   }

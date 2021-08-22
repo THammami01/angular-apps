@@ -146,10 +146,21 @@
   border-radius: 5rem !important;
 }
 
-// CHEAP
+// CHIP
 :host ::ng-deep .p-chip.p-component {
   font-size: 0.8rem;
   font-weight: bold;
+}
+
+:host ::ng-deep .p-chip.p-component.p-chip-image {
+  height: 22px !important;
+  img {
+    transform: translate(-3px, -4px) !important;
+  }
+}
+
+:host ::ng-deep p-chip {
+  transform: translateY(3px);
 }
 
 // BASIC MENU
@@ -203,9 +214,8 @@
 :host ::ng-deep .pi-eye:before,
 :host ::ng-deep .pi-eye-slash:before {
   cursor: pointer !important;
-  margin-right: .15rem;
+  margin-right: 0.15rem;
 }
-
 
 // TOAST
 ::ng-deep .ng-tns-c53-1.p-toast.p-component.p-toast-bottom-center {

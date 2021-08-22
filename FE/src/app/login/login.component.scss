@@ -12,9 +12,9 @@
 
   img {
     width: 100%;
-    margin: 3.5rem 0 !important;
-    margin: 0 auto;
-    border-bottom: 0.1rem solid #0000ff30;
+    margin: .75rem 0 !important;
+    padding-bottom: 1.25rem;
+    border-bottom: 0.2rem solid #e1f2ea;
   }
 
   input,
@@ -46,5 +46,9 @@
   ::ng-deep .p-toast.p-component.p-toast-bottom-center {
     width: 250px !important;
     margin-right: 1rem !important;
+  }
+
+  .login-form {
+    margin-top: 1rem;
   }
 }
