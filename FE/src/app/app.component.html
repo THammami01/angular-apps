@@ -20,13 +20,13 @@
         [image]="'assets/imgs/' + connectedUser.chipImage"
         ></p-chip>
         <!-- icon="pi pi-user" -->
-      <p-avatar
+      <!-- <p-avatar
         icon="pi pi-ellipsis-v"
         shape="circle"
         (click)="menu.toggle($event)"
         style="cursor: pointer"
         size="small"
-      ></p-avatar>
+      ></p-avatar> -->
       <p-menu #menu [popup]="true" [model]="items"></p-menu>
 
       <!-- MODAL START -->
@@ -113,6 +113,5 @@
 <router-outlet *ngIf="!justStarted"></router-outlet>
 
 <div ngClass="bottom-title">
-  <!-- <p>Gestion des Patients - Cabinet Dr. Mahdi Kaabi</p> -->
-  <p>Gestion des ABCDEFGH - ABCDEFG AB. X Y</p>
+  <p>Gestion des Patients - Cabinet Dr. Mahdi Kaabi</p>
 </div>

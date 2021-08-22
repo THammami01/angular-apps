@@ -1,32 +1,32 @@
 import express from "express";
 import {
-  getIncidents,
-  getIncident,
-  addIncident,
-  getMaxIncidentNb,
-  updateIncident,
-  deleteIncident,
-} from "../__db__/incidents.mjs";
+  getPatients,
+  getPatient,
+  addPatient,
+  getMaxPatientNb,
+  updatePatient,
+  deletePatient,
+} from "../__db__/patients.mjs";
 import { authMiddleware } from "./auth.mjs";
 
 const router = express.Router();
 
 router.get("/", authMiddleware, (req, res) => {
-  getIncidents()
-    .then((incidentsArr) => {
-      res.send({ incidents: JSON.parse(JSON.stringify(incidentsArr)) });
+  getPatients()
+    .then((patientsArr) => {
+      res.send({ patients: JSON.parse(JSON.stringify(patientsArr)) });
     })
     .catch((err) => {
       res.sendStatus(500);
     });
 });
 
-router.get("/:incidentNb", authMiddleware, (req, res) => {
-  const { incidentNb } = req.params;
+router.get("/:patientNb", authMiddleware, (req, res) => {
+  const { patientNb } = req.params;
 
-  getIncident(incidentNb)
-    .then((incidentsArr) => {
-      res.send({ incident: JSON.parse(JSON.stringify(incidentsArr)) });
+  getPatient(patientNb)
+    .then((patientsArr) => {
+      res.send({ patient: JSON.parse(JSON.stringify(patientsArr)) });
     })
     .catch((err) => {
       res.sendStatus(500);
@@ -34,19 +34,19 @@ router.get("/:incidentNb", authMiddleware, (req, res) => {
 });
 
 router.post("/", authMiddleware, async (req, res) => {
-  const newIncident = req.body;
+  const newPatient = req.body;
 
   try {
-    newIncident.incidentNb = (await getMaxIncidentNb()) + 1;
+    newPatient.patientNb = (await getMaxPatientNb()) + 1;
   } catch {
     res.sendStatus(500);
   }
 
-  addIncident(newIncident)
+  addPatient(newPatient)
     .then((data) => {
       res.status(201).send({
         status: "Added Successfully",
-        incidentNb: newIncident.incidentNb,
+        patientNb: newPatient.patientNb,
       });
     })
     .catch((err) => {
@@ -55,9 +55,9 @@ router.post("/", authMiddleware, async (req, res) => {
 });
 
 router.patch("/", authMiddleware, async (req, res) => {
-  const newIncident = req.body;
+  const newPatient = req.body;
 
-  updateIncident(newIncident)
+  updatePatient(newPatient)
     .then((data) => {
       res.send({ status: "Modified Successfully" });
     })
@@ -66,10 +66,10 @@ router.patch("/", authMiddleware, async (req, res) => {
     });
 });
 
-router.delete("/:incidentNb", (req, res) => {
-  const { incidentNb } = req.params;
+router.delete("/:patientNb", (req, res) => {
+  const { patientNb } = req.params;
 
-  deleteIncident(incidentNb)
+  deletePatient(patientNb)
     .then(() => {
       res.send({ status: "Deleted Successfully" });
     })

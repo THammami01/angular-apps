@@ -5,15 +5,14 @@ import axios, { AxiosError, AxiosResponse } from 'axios';
 import { MessageService } from 'primeng/api';
 import { Observable } from 'rxjs';
 import { AppState } from '../app.component';
-import { Incident } from '../__models__/Incident.model';
+import { Patient } from '../__models__/patient.model';
 import { baseUrl } from '../__utils__/baseUrl';
-import { getCurrentDatetime } from '../__utils__/useful';
-import { incidentTypeOptions } from './../__utils__/incidentTypeOptions';
+import { getCurrentDate } from '../__utils__/useful';
 import jwt_decode from 'jwt-decode';
 
-interface CreateIncidentResponse {
+interface CreatePatientResponse {
   status: string;
-  incidentNb: number;
+  patientNb: number;
 }
 
 @Component({
@@ -31,51 +30,34 @@ export class AddComponent implements OnInit {
     this.isLoading$ = this.store.select('loader');
   }
 
-  newIncident!: Incident;
-  incidentTypeOptions = incidentTypeOptions;
+  newPatient!: Patient;
   isLoading$: Observable<boolean>;
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.initializeNewIncident();
+    this.initializeNewPatient();
 
     document.title = `SGP ‣ Ajout d'un patient`;
 
     this.checkToken();
   }
 
-  initializeNewIncident() {
-    this.newIncident = {
-      incidentNb: 0,
-      sourcePost: '',
-      voltage: 0,
-      departure: '',
-      aSType: '',
-      incidentType: '',
-      startDatetime: '',
-      firstRecoveryDatetime: '',
-      endDatetime: '',
-      cutOff: 0,
-      recovery: 0,
-      section: '',
-      observations: '',
+  initializeNewPatient() {
+    this.newPatient = {
+      patientNb: 0,
+      patientId: '',
+      lastname: '',
+      firstname: '',
+      nicNb: '',
+      phoneNb: '',
+      birthday: '',
+      addday: '',
+      parentName: '',
     };
   }
 
-  handleAutofill(key: string) {
-    const generatedDate = getCurrentDatetime();
-
-    switch (key) {
-      case 'startDatetime':
-        this.newIncident.startDatetime = generatedDate;
-        break;
-      case 'firstRecoveryDatetime':
-        this.newIncident.firstRecoveryDatetime = generatedDate;
-        break;
-      case 'endDatetime':
-        this.newIncident.endDatetime = generatedDate;
-        break;
-    }
+  handleAutofill() {
+    this.newPatient.addday = getCurrentDate();
   }
 
   handleGoBack() {
@@ -89,35 +71,30 @@ export class AddComponent implements OnInit {
 
   handleSave() {
     if (
-      !this.newIncident.sourcePost ||
-      !this.newIncident.departure ||
-      !this.newIncident.aSType ||
-      this.newIncident.incidentType.length === 0 ||
-      !this.newIncident.startDatetime ||
-      !this.newIncident.firstRecoveryDatetime ||
-      !this.newIncident.endDatetime ||
-      !this.newIncident.section ||
-      !this.newIncident.observations
+      !this.newPatient.patientId ||
+      !this.newPatient.lastname ||
+      !this.newPatient.firstname ||
+      !this.newPatient.nicNb ||
+      !this.newPatient.phoneNb ||
+      !this.newPatient.birthday ||
+      !this.newPatient.addday ||
+      !this.newPatient.parentName
     ) {
       this.show('info', "Remplir tous les champs d'abord.");
     } else {
       this.store.dispatch({ type: 'START_LOADING' });
 
-      const incidentToSend: Incident = {
-        ...this.newIncident,
-        incidentType: (this.newIncident.incidentType as string[]).join(', '),
-      };
-
       const accessToken = localStorage.getItem('accessToken');
       axios
-        .post(`${baseUrl}/incidents`, incidentToSend, {
+        .post(`${baseUrl}/patients`, this.newPatient, {
           headers: { Authorization: accessToken },
         })
-        .then((res: AxiosResponse<CreateIncidentResponse>) => {
+        .then((res: AxiosResponse<CreatePatientResponse>) => {
+          console.log(this.newPatient.patientId);
           setTimeout(() => {
             this.show(
               'success',
-              `Enregistrement d'identifiant ${res.data.incidentNb} ajouté avec succès.`
+              `Enregistrement d'identifiant ${this.newPatient.patientId} ajouté avec succès.`
             );
 
             this.store.dispatch({ type: 'STOP_LOADING' });

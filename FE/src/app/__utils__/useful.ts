@@ -1,12 +1,9 @@
-import { Incident } from './../__models__/Incident.model';
+import { Patient } from '../__models__/patient.model';
 
-export const flattenObject = (obj: Incident, includeOnly: string[]) => {
+export const flattenObject = (obj: Patient, includeOnly: string[]) => {
   return Object.entries(obj)
     .map((el) => {
       if (includeOnly.length !== 0 && !includeOnly.includes(el[0])) return '';
-      if (el[0] === 'voltage') return String(el[1]) + ' KV';
-      if (el[0] === 'cutOff' || el[0] === 'recovery')
-        return String(el[1]) + ' A';
       return String(el[1]);
     })
     .join(' ');
@@ -35,12 +32,18 @@ export const dynamicSort = (property: any) => {
   };
 };
 
-export const getCurrentDatetime = () => {
+export const getCurrentDate = () => {
   const today = new Date();
   const dd = String(today.getDate()).padStart(2, '0');
   const mm = String(today.getMonth() + 1).padStart(2, '0');
   const yyyy = today.getFullYear();
-  const hh = String(today.getHours()).padStart(2, '0');
-  const MM = String(today.getMinutes()).padStart(2, '0');
-  return `${dd}/${mm}/${yyyy} ${hh}:${MM}`;
+  return `${dd}/${mm}/${yyyy}`;
+};
+
+export const changeToSortableDate = (date: string) => {
+  return date.split('/').reverse().join('-');;
+};
+
+export const changeToInitialDate = (date: string) => {
+  return date.split('-').reverse().join('/');;
 };

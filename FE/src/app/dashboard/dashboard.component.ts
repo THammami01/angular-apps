@@ -6,22 +6,18 @@ import { AppState } from '../app.component';
 import { fadeSlideInOutAnimation } from './../__utils__/animations';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { baseUrl } from '../__utils__/baseUrl';
-import { Incident } from '../__models__/Incident.model';
-import { getMonday, flattenObject, dynamicSort } from './../__utils__/useful';
+import { Patient } from '../__models__/patient.model';
+import {
+  getMonday,
+  flattenObject,
+  dynamicSort,
+  changeToSortableDate,
+  changeToInitialDate,
+} from './../__utils__/useful';
 import jwt_decode from 'jwt-decode';
 
-// interface User {
-//   userNb: number;
-//   userId: string;
-//   userPwd: string;
-// }
-
-// interface UsersResponse {
-//   users: User[];
-// }
-
-interface IncidentsResponse {
-  incidents: Incident[];
+interface PatientsResponse {
+  patients: Patient[];
 }
 
 export interface SearchEl {
@@ -37,31 +33,25 @@ export interface SearchEl {
   providers: [ConfirmationService, MessageService],
 })
 export class DashboardComponent implements OnInit {
-  // users: User[] = [];
-  fetchedIncidents: Incident[] = [];
+  fetchedPatients: Patient[] = [];
   isModalDisplayed = false;
   currPage = 0;
   searchKey = '';
 
   searchOptions = [
-    { name: 'Id', code: 'incidentNb' },
-    { name: 'Poste Source', code: 'sourcePost' },
-    { name: 'Tension', code: 'voltage' },
-    { name: 'Départ', code: 'departure' },
-    { name: 'Type A/S', code: 'aSType' },
-    { name: 'Type Incident', code: 'incidentType' },
-    { name: 'Début', code: 'startDatetime' },
-    { name: '1er Rétablissement', code: 'firstRecoveryDatetime' },
-    { name: 'Fin', code: 'endDatetime' },
-    { name: 'Courant Coupé', code: 'cutOff' },
-    { name: 'Courant 1er Rétablissement', code: 'recovery' },
-    { name: 'Trançon Coucerné', code: 'section' },
-    { name: 'Observations', code: 'observations' },
+    { name: 'Id', code: 'patientId' },
+    { name: 'Nom de famille', code: 'lastname' },
+    { name: 'Prénom', code: 'firstname' },
+    { name: 'CIN', code: 'nicNb' },
+    { name: 'Téléphone', code: 'phoneNb' },
+    { name: 'Date de naissance', code: 'birthday' },
+    { name: "Date d'ajout", code: 'addday' },
+    { name: 'Nom du père', code: 'parentName' },
   ];
 
   selectedSearchOptions: SearchEl[] = [];
-  selectedOrderByOption: SearchEl = { name: 'Id', code: 'incidentNb' };
-  selectedOrderByDirction = 'Desc.';
+  selectedOrderByOption: SearchEl = { name: 'Id', code: 'patientId' };
+  selectedOrderByDirection = 'Desc.';
 
   datesOptions = [
     { label: "Aujourd'hui", value: "Aujourd'hui" },
@@ -80,7 +70,7 @@ export class DashboardComponent implements OnInit {
 
   selectedDateOption = 'Tous';
   selectedNbPerPage = '10';
-  nbOfIncident = 0;
+  nbOfPatients = 0;
 
   constructor(
     private router: Router,
@@ -109,22 +99,29 @@ export class DashboardComponent implements OnInit {
 
     const accessToken = localStorage.getItem('accessToken');
     axios
-      .get(`${baseUrl}/incidents`, {
+      .get(`${baseUrl}/patients`, {
         headers: { Authorization: accessToken },
       })
-      .then((res: AxiosResponse<IncidentsResponse>) => {
-        this.fetchedIncidents = res.data.incidents;
+      .then((res: AxiosResponse<PatientsResponse>) => {
+        this.fetchedPatients = res.data.patients;
       })
       .catch((err: AxiosError) => {
         this.show('error', 'Une erreur est survenue.');
       });
 
     const savedStringifiedParams = localStorage.getItem('savedParams');
-    if (savedStringifiedParams !== null) {
+    if (savedStringifiedParams === null) {
+      this.selectedSearchOptions = [];
+      this.selectedOrderByOption =  { name: 'Id', code: 'patientId' };;
+      this.selectedOrderByDirection = 'Desc.';
+      this.selectedDateOption = 'Tous';
+      this.selectedNbPerPage = '10';
+      this.saveParams();
+    } else {
       const savedParams = JSON.parse(savedStringifiedParams);
       this.selectedSearchOptions = savedParams.selectedSearchOptions;
       this.selectedOrderByOption = savedParams.selectedOrderByOption;
-      this.selectedOrderByDirction = savedParams.selectedOrderByDirction;
+      this.selectedOrderByDirection = savedParams.selectedOrderByDirection;
       this.selectedDateOption = savedParams.selectedDateOption;
       this.selectedNbPerPage = savedParams.selectedNbPerPage;
     }
@@ -134,7 +131,7 @@ export class DashboardComponent implements OnInit {
     const savedParams = JSON.stringify({
       selectedSearchOptions: this.selectedSearchOptions,
       selectedOrderByOption: this.selectedOrderByOption,
-      selectedOrderByDirction: this.selectedOrderByDirction,
+      selectedOrderByDirection: this.selectedOrderByDirection,
       selectedDateOption: this.selectedDateOption,
       selectedNbPerPage: this.selectedNbPerPage,
     });
@@ -142,7 +139,7 @@ export class DashboardComponent implements OnInit {
     localStorage.setItem('savedParams', savedParams);
   }
 
-  get filteredIncidents() {
+  get filteredPatients() {
     const today = new Date();
     const todayArr = [
       today.getDate(),
@@ -152,99 +149,100 @@ export class DashboardComponent implements OnInit {
 
     let res;
     if (this.selectedDateOption === "Aujourd'hui") {
-      res = this.fetchedIncidents.filter(({ startDatetime, endDatetime }) => {
-        const tempDate = startDatetime
-          .split(' ')[0]
-          .split('/')
-          .map((el) => +el);
-        const tempDate2 = endDatetime
+      res = this.fetchedPatients.filter(({ addday }) => {
+        const tempDate = addday
           .split(' ')[0]
           .split('/')
           .map((el) => +el);
 
         return (
-          (tempDate[0] === todayArr[0] &&
-            tempDate[1] === todayArr[1] &&
-            tempDate[2] === todayArr[2]) ||
-          (tempDate2[0] === todayArr[0] &&
-            tempDate2[1] === todayArr[1] &&
-            tempDate2[2] === todayArr[2])
+          tempDate[0] === todayArr[0] &&
+          tempDate[1] === todayArr[1] &&
+          tempDate[2] === todayArr[2]
         );
       });
     } else if (this.selectedDateOption === 'Cette semaine') {
-      const mondayTimestamp = getMonday(new Date()).getTime();
+      const mondayTimestamp = getMonday(new Date()).setHours(0, 0, 0, 0);
 
-      res = this.fetchedIncidents.filter(({ startDatetime, endDatetime }) => {
-        const tempDate = startDatetime
-          .split(' ')[0]
-          .split('/')
-          .map((el) => +el);
-        const tempDate2 = endDatetime
+      res = this.fetchedPatients.filter(({ addday }) => {
+        const tempDate = addday
           .split(' ')[0]
           .split('/')
           .map((el) => +el);
 
-        const startDateTimestamp = new Date(
+        const adddayTimestamp = new Date(
           Date.parse(`${tempDate[1]}/${tempDate[0]}/${tempDate[2]}`)
-        ).getTime();
+        ).setHours(0, 0, 0, 0);
 
-        const endDateTimestamp = new Date(
-          Date.parse(`${tempDate2[1]}/${tempDate2[0]}/${tempDate2[2]}`)
-        ).getTime();
-
-        return (
-          startDateTimestamp >= mondayTimestamp ||
-          endDateTimestamp >= mondayTimestamp
-        );
+        return adddayTimestamp >= mondayTimestamp;
       });
     } else if (this.selectedDateOption === 'Ce mois') {
-      res = this.fetchedIncidents.filter(({ startDatetime }) => {
-        const tempDate = startDatetime
-          .split(' ')[0]
-          .split('/')
-          .map((el) => +el);
-        const tempDate2 = startDatetime
+      // TODO: FIX SGI, SAME KEY USED IN tempDate AND tempDate2
+      res = this.fetchedPatients.filter(({ addday }) => {
+        const tempDate = addday
           .split(' ')[0]
           .split('/')
           .map((el) => +el);
 
-        return (
-          (tempDate[1] === todayArr[1] && tempDate[2] === todayArr[2]) ||
-          (tempDate2[1] === todayArr[1] && tempDate2[2] === todayArr[2])
-        );
+        return tempDate[1] === todayArr[1] && tempDate[2] === todayArr[2];
       });
     } else if (this.selectedDateOption === 'Cette année') {
-      res = this.fetchedIncidents.filter(({ startDatetime }) => {
-        const tempDate = startDatetime
+      res = this.fetchedPatients.filter(({ addday }) => {
+        const tempDate = addday
           .split(' ')[0]
           .split('/')
           .map((el) => +el);
 
-        const tempDate2 = startDatetime
-          .split(' ')[0]
-          .split('/')
-          .map((el) => +el);
-
-        return tempDate[2] === todayArr[2] || tempDate2[2] === todayArr[2];
+        return tempDate[2] === todayArr[2];
       });
     } else {
-      res = this.fetchedIncidents;
+      res = this.fetchedPatients;
     }
 
     const includeOnly: string[] = this.selectedSearchOptions.map(
       (el) => el.code
     );
 
-    let resFilteredByKey = res.filter((incident) =>
-      flattenObject(incident, includeOnly)
+    let resFilteredByKey = res.filter((patient) =>
+      flattenObject(patient, includeOnly)
         .toLowerCase()
         .includes(this.searchKey.toLowerCase())
     );
-    this.nbOfIncident = resFilteredByKey.length;
+    this.nbOfPatients = resFilteredByKey.length;
+
+    if (
+      this.selectedOrderByOption.code === 'addday' ||
+      this.selectedOrderByOption.code === 'birthday'
+    ) {
+      resFilteredByKey = resFilteredByKey.map((el) => {
+        return {
+          ...el,
+          [this.selectedOrderByOption.code]: changeToSortableDate(
+            // @ts-ignore
+            el[this.selectedOrderByOption.code]
+          ),
+        };
+      });
+    }
 
     resFilteredByKey.sort(dynamicSort(this.selectedOrderByOption.code));
 
-    if (this.selectedOrderByDirction === 'Asc.')
+    if (
+      this.selectedOrderByOption.code === 'addday' ||
+      this.selectedOrderByOption.code === 'birthday'
+    ) {
+      resFilteredByKey = resFilteredByKey.map((el) => {
+        return {
+          ...el,
+          [this.selectedOrderByOption.code]: changeToInitialDate(
+            // @ts-ignore
+            el[this.selectedOrderByOption.code]
+          ),
+        };
+      });
+    }
+
+    if (this.selectedOrderByDirection === 'Asc.')
       resFilteredByKey = resFilteredByKey.reverse();
 
     return this.getPage(resFilteredByKey);
@@ -273,16 +271,16 @@ export class DashboardComponent implements OnInit {
     window.scrollTo(0, 0);
   }
 
-  handleEdit(incidentNb: number) {
+  handleEdit(patientNb: number) {
     this.store.dispatch({ type: 'START_LOADING' });
 
     setTimeout(() => {
-      this.router.navigate(['patients', incidentNb, 'edit']);
+      this.router.navigate(['patients', patientNb, 'edit']);
       this.store.dispatch({ type: 'STOP_LOADING' });
     }, 1000);
   }
 
-  handleDelete(event: Event, incidentNb: number) {
+  handleDelete(event: Event, patientId: string, patientNb: number) {
     this.confirmationService.confirm({
       // @ts-ignore
       target: event.target,
@@ -293,16 +291,16 @@ export class DashboardComponent implements OnInit {
       accept: () => {
         const accessToken = localStorage.getItem('accessToken');
         axios
-          .delete(`${baseUrl}/incidents/${incidentNb}`, {
+          .delete(`${baseUrl}/patients/${patientNb}`, {
             headers: { Authorization: accessToken },
           })
           .then(() => {
-            this.fetchedIncidents = this.fetchedIncidents.filter(
-              (incident) => incident.incidentNb !== incidentNb
+            this.fetchedPatients = this.fetchedPatients.filter(
+              (patient) => patient.patientNb !== patientNb
             );
             this.show(
               'info',
-              `Enregistrement ${incidentNb} supprimé avec succès.`
+              `Enregistrement ${patientId} supprimé avec succès.`
             );
           })
           .catch((err: AxiosError) => {

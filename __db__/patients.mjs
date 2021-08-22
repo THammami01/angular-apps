@@ -1,7 +1,7 @@
 import { db } from "../index.mjs";
 
-export const getIncidents = () => {
-  const sql = `SELECT * FROM Patient ORDER BY incidentNb DESC;`;
+export const getPatients = () => {
+  const sql = `SELECT * FROM Patient ORDER BY patientNb DESC;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, (err, results) => {
@@ -11,55 +11,55 @@ export const getIncidents = () => {
   });
 };
 
-export const getIncident = (incidentNb) => {
-  const sql = `SELECT * FROM Patient WHERE incidentNb = ?;`;
+export const getPatient = (patientNb) => {
+  const sql = `SELECT * FROM Patient WHERE patientNb = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(sql, [incidentNb], (err, results) => {
+    db.query(sql, [patientNb], (err, results) => {
       if (err) return reject(err);
       return resolve(results);
     });
   });
 };
 
-export const addIncident = (newIncident) => {
+export const addPatient = (newPatient) => {
   const sql = `INSERT INTO Patient SET ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(sql, newIncident, (err, results) => {
+    db.query(sql, newPatient, (err, results) => {
       if (err) return reject(err);
       return resolve(results);
     });
   });
 };
 
-export const updateIncident = (newIncident) => {
-  const sql = `UPDATE Patient SET ? WHERE incidentNb = ?;`;
+export const updatePatient = (newPatient) => {
+  const sql = `UPDATE Patient SET ? WHERE patientNb = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(sql, [newIncident, newIncident.incidentNb], (err, results) => {
+    db.query(sql, [newPatient, newPatient.patientNb], (err, results) => {
       if (err) return reject(err);
       return resolve(results);
     });
   });
 };
 
-export const getMaxIncidentNb = () => {
-  const sql = `SELECT MAX(incidentNb) AS maxIncidentNb FROM Patient;`;
+export const getMaxPatientNb = () => {
+  const sql = `SELECT MAX(patientNb) AS maxPatientNb FROM Patient;`;
 
   return new Promise((resolve, reject) => {
     db.query(sql, (err, results) => {
       if (err) return reject(err);
-      return resolve(results[0].maxIncidentNb);
+      return resolve(results[0].maxPatientNb);
     });
   });
 };
 
-export const deleteIncident = (incidentNb) => {
-  const sql = `DELETE FROM Patient WHERE incidentNb = ?;`;
+export const deletePatient = (patientNb) => {
+  const sql = `DELETE FROM Patient WHERE patientNb = ?;`;
 
   return new Promise((resolve, reject) => {
-    db.query(sql, [incidentNb], (err, res) => {
+    db.query(sql, [patientNb], (err, res) => {
       if (err) return reject(err);
       return resolve();
     });

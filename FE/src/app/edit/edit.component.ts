@@ -4,19 +4,18 @@ import { AppState } from '../app.component';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import axios, { AxiosError, AxiosResponse } from 'axios';
-import { incidentTypeOptions } from '../__utils__/incidentTypeOptions';
-import { Incident } from '../__models__/Incident.model';
+import { Patient } from '../__models__/patient.model';
 import { baseUrl } from '../__utils__/baseUrl';
 import { Observable } from 'rxjs';
-import { getCurrentDatetime } from '../__utils__/useful';
+import { getCurrentDate } from '../__utils__/useful';
 import jwt_decode from 'jwt-decode';
 
-interface UpdateIncidentResponse {
+interface UpdatePatientResponse {
   status: string;
 }
 
-interface GetIncidentResponse {
-  incident: Incident[];
+interface GetPatientResponse {
+  patient: Patient[];
 }
 
 @Component({
@@ -27,8 +26,8 @@ interface GetIncidentResponse {
 })
 export class EditComponent implements OnInit {
   id!: number;
-  incidentTypeOptions = incidentTypeOptions;
-  newIncident!: Incident;
+  newPatient!: Patient;
+  fixedPatientId!: string;
   isLoading$: Observable<boolean>;
 
   constructor(
@@ -42,7 +41,7 @@ export class EditComponent implements OnInit {
 
   ngOnInit(): void {
     window.scrollTo(0, 0);
-    this.initializeNewIncident();
+    this.initializeNewPatient();
 
     this.route.params.subscribe((params) => {
       this.id = +params['id'];
@@ -52,18 +51,14 @@ export class EditComponent implements OnInit {
 
     const accessToken = localStorage.getItem('accessToken');
     axios
-      .get(`${baseUrl}/incidents/${this.id}`, {
+      .get(`${baseUrl}/patients/${this.id}`, {
         headers: { Authorization: accessToken },
       })
-      .then((res: AxiosResponse<GetIncidentResponse>) => {
-        if (res.data.incident.length === 1) {
-          const incidentType = res.data.incident[0].incidentType as string;
-          const incident = {
-            ...res.data.incident[0],
-            incidentType: incidentType === '' ? [] : incidentType.split(', '),
-          };
-
-          this.newIncident = incident;
+      .then((res: AxiosResponse<GetPatientResponse>) => {
+        if (res.data.patient.length === 1) {
+          this.newPatient = res.data.patient[0];
+          this.fixedPatientId = this.newPatient.patientId;
+          document.title = `SGP ‣ Patient ${this.fixedPatientId}`;
         } else {
           this.router.navigate(['patients']);
         }
@@ -71,41 +66,23 @@ export class EditComponent implements OnInit {
       .catch((err: AxiosError) => {
         this.show('error', 'Une erreur est survenue.');
       });
-
-    document.title = `SGP ‣ Patient ${this.id}`;
   }
 
-  handleAutofill(key: string) {
-    const generatedDate = getCurrentDatetime();
-
-    switch (key) {
-      case 'startDatetime':
-        this.newIncident.startDatetime = generatedDate;
-        break;
-      case 'firstRecoveryDatetime':
-        this.newIncident.firstRecoveryDatetime = generatedDate;
-        break;
-      case 'endDatetime':
-        this.newIncident.endDatetime = generatedDate;
-        break;
-    }
+  handleAutofill() {
+    this.newPatient.addday = getCurrentDate();
   }
 
-  initializeNewIncident() {
-    this.newIncident = {
-      incidentNb: 0,
-      sourcePost: '',
-      voltage: 0,
-      departure: '',
-      aSType: '',
-      incidentType: [],
-      startDatetime: '',
-      firstRecoveryDatetime: '',
-      endDatetime: '',
-      cutOff: 0,
-      recovery: 0,
-      section: '',
-      observations: '',
+  initializeNewPatient() {
+    this.newPatient = {
+      patientNb: 0,
+      patientId: '',
+      lastname: '',
+      firstname: '',
+      nicNb: '',
+      phoneNb: '',
+      birthday: '',
+      addday: '',
+      parentName: '',
     };
   }
 
@@ -120,36 +97,32 @@ export class EditComponent implements OnInit {
 
   handleSave() {
     if (
-      !this.newIncident.sourcePost ||
-      !this.newIncident.departure ||
-      !this.newIncident.aSType ||
-      this.newIncident.incidentType.length === 0 ||
-      !this.newIncident.startDatetime ||
-      !this.newIncident.firstRecoveryDatetime ||
-      !this.newIncident.endDatetime ||
-      !this.newIncident.section ||
-      !this.newIncident.observations
+      !this.newPatient.patientId ||
+      !this.newPatient.lastname ||
+      !this.newPatient.firstname ||
+      !this.newPatient.nicNb ||
+      !this.newPatient.phoneNb ||
+      !this.newPatient.birthday ||
+      !this.newPatient.addday ||
+      !this.newPatient.parentName
     ) {
       this.show('info', "Remplir tous les champs d'abord.");
     } else {
       this.store.dispatch({ type: 'START_LOADING' });
 
-      const incidentToSend: Incident = {
-        ...this.newIncident,
-        incidentType: (this.newIncident.incidentType as string[]).join(', '),
-      };
-
       const accessToken = localStorage.getItem('accessToken');
       axios
-        .patch(`${baseUrl}/incidents`, incidentToSend, {
+        .patch(`${baseUrl}/patients`, this.newPatient, {
           headers: { Authorization: accessToken },
         })
-        .then((res: AxiosResponse<UpdateIncidentResponse>) => {
+        .then((res: AxiosResponse<UpdatePatientResponse>) => {
           setTimeout(() => {
+            this.fixedPatientId = this.newPatient.patientId;
             this.show(
               'success',
-              `Enregistrement ${this.id} modifié avec succès.`
+              `Enregistrement ${this.fixedPatientId} modifié avec succès.`
             );
+            document.title = `SGP ‣ Patient ${this.fixedPatientId}`;
             this.store.dispatch({ type: 'STOP_LOADING' });
           }, 500);
         })

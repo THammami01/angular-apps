@@ -1,6 +1,6 @@
-CREATE DATABASE SGI;
+CREATE DATABASE SGP;
 
-USE SGI;
+USE SGP;
 
 SHOW TABLES;
 
@@ -10,45 +10,39 @@ CREATE TABLE User(
 	userPwd VARCHAR(255) NOT NULL
 );
 
-UPDATE User SET userPwd = 'admin' WHERE userNb = 1 AND userId = 'admin' AND userPwd = 'admin2';
+UPDATE User SET userPwd = 'admin' WHERE userNb = 1 AND userId = 'user1' AND userPwd = 'user1';
 DESC User;
 SELECT * FROM User;
 DROP TABLE User;
 
 INSERT INTO User(userId, userPwd)
-VALUES("admin", "admin");
+VALUES("user3", "user3");
 
 
-CREATE TABLE Incident(
-	incidentNb INT PRIMARY KEY,
-
-    sourcePost VARCHAR(255) NOT NULL, -- Poste source
-	voltage DECIMAL(12,3) NOT NULL, -- Tension en KV
-    departure VARCHAR(255) NOT NULL, -- Nom du départ
-	aSType VARCHAR(255) NOT NULL, -- Types (A=Aérien/S=Souterrain)
-
-    incidentType VARCHAR(255) NOT NULL, -- or nature, Type de l'incident (R+L+D, R=DRR L=DRL D=DD)
-    -- cause VARCHAR(255) NOT NULL,
-
-	startDatetime VARCHAR(255) NOT NULL, -- Début
-	firstRecoveryDatetime VARCHAR(255) NOT NULL, -- 1er rétablissement
-    endDatetime VARCHAR(255) NOT NULL, -- Fin
-
-	cutOff DECIMAL(12,3) NOT NULL, -- Courant coupé
-	recovery DECIMAL(12,3) NOT NULL, -- Courant 1er rétablissement
-    section VARCHAR(255) NOT NULL, -- Tronçon concerné
-    observations TEXT NULL -- Observations
+CREATE TABLE Patient(
+	patientNb INT PRIMARY KEY NOT NULL UNIQUE,
+	patientId VARCHAR(255) NOT NULL UNIQUE,
+	lastname VARCHAR(255) NOT NULL,
+	firstname VARCHAR(255) NOT NULL,
+	nicNb VARCHAR(255) NOT NULL,
+	phoneNb VARCHAR(255) NOT NULL,
+	birthday VARCHAR(255) NOT NULL,
+	addday VARCHAR(255) NOT NULL,
+	parentName VARCHAR(255) NOT NULL
 );
 
-DESC Incident;
-SELECT * FROM Incident;
-DELETE FROM Incident;
-DROP TABLE Incident;
-SELECT MAX(incidentNb) FROM Incident;
+DESC Patient;
+SELECT * FROM Patient;
+DELETE FROM Patient;
+DROP TABLE Patient;
+SELECT MAX(incidentNb) FROM Patient;
 
-INSERT INTO Incident VALUES(
-	31, "Mnihla", 30.5, "K. Andalous", "A", "DRR, DRL, DD", "13/07/2020 20:07",
-	"13/07/2020 22:00", "13/07/2020 23:30", 51, 12, "entre T2 et T3", "......"
+-- 'Manel Amara', 'Marwa Agrebi', 'Maram Ben Aziza', 'Zaza Show', 'Sami Fehri',
+-- 'Hedi Zaiem', 'Music Actors', 'Lobna Sediri', 'Amira Al Jaziri', 'Ramla Dhouibi	', 
+-- 'Laetitia Lo Iudice', 'Emna Fakher	', 'Aicha Othman', 'Asma Othmani', 'Karim Gharbi',
+-- 'Faycel Lahdiri', 'Tarek Baalouch', 'Zahra Ben Habib', 'Beya Zardi', 'Lynda Toumy	',
+-- 'Rym Ben Messaoud', 'Nermine Sfar'
+
+INSERT INTO Patient VALUES(
+	11, '0011', "Othmani", "Asma", "09000011", "(+216) 97 000 011", "30/11/1991", "11/08/2021", 'X Ben Y'
 );
-
-

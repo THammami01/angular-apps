@@ -4,9 +4,9 @@
   <div ngClass="top-section">
     <h1>
       Liste des patients
-      <span ngClass="nb-incidents"
+      <span ngClass="nb-patients"
         >#{{ selectedDateOption.toUpperCase().replace(" ", "_") }} [{{
-          nbOfIncident
+          nbOfPatients
         }}]</span
       >
     </h1>
@@ -87,8 +87,8 @@
           type="button"
           icon="pi pi-arrow-up"
           class="p-button-text p-button-plain"
-          [disabled]="selectedOrderByDirction === 'Asc.'"
-          (click)="selectedOrderByDirction = 'Asc.'"
+          [disabled]="selectedOrderByDirection === 'Asc.'"
+          (click)="selectedOrderByDirection = 'Asc.'"
           pTooltip="Ascendent"
           tooltipPosition="right"
           [showDelay]="5000"
@@ -99,8 +99,8 @@
           type="button"
           icon="pi pi-arrow-down"
           class="p-button-text p-button-plain"
-          [disabled]="selectedOrderByDirction === 'Desc.'"
-          (click)="selectedOrderByDirction = 'Desc.'"
+          [disabled]="selectedOrderByDirection === 'Desc.'"
+          (click)="selectedOrderByDirection = 'Desc.'"
           pTooltip="Descendent"
           tooltipPosition="right"
           [showDelay]="5000"
@@ -131,26 +131,21 @@
   <!-- MODAL END -->
 
   <p-table
-    *ngIf="filteredIncidents !== null"
-    [value]="filteredIncidents"
+    *ngIf="filteredPatients !== null"
+    [value]="filteredPatients"
     [scrollable]="true"
     [style]="{ width: '100%' }"
   >
     <ng-template pTemplate="header">
       <tr>
-        <th style="min-width: 80px">Id</th>
-        <th style="min-width: 150px">Poste<br />Source</th>
-        <th style="min-width: 100px">Tension</th>
-        <th style="min-width: 150px">Départ</th>
-        <th style="min-width: 80px">Type A/S</th>
-        <th style="min-width: 175px">Type<br />Incident</th>
-        <th style="min-width: 150px">Début</th>
-        <th style="min-width: 150px">1er<br />Rétablissement</th>
-        <th style="min-width: 150px">Fin</th>
-        <th style="min-width: 125px">Courant<br />Coupé</th>
-        <th style="min-width: 125px">Courant 1er Rétablissement</th>
-        <th style="min-width: 150px">Trançon<br />Concerné</th>
-        <th style="min-width: 250px">Observations</th>
+        <th style="min-width: 110px">Id</th>
+        <th style="min-width: 150px">Nom<br/>de famille</th>
+        <th style="min-width: 150px">Prénom</th>
+        <th style="min-width: 150px">CIN</th>
+        <th style="min-width: 150px">Téléphone</th>
+        <th style="min-width: 150px">Date <br/>de naissance</th>
+        <th style="min-width: 150px">Date<br/>d'ajout</th>
+        <th style="min-width: 200px">Nom<br/>du père</th>
 
         <th
           style="min-width: 80px; border-left: 0.2rem solid #f5f5f5"
@@ -162,21 +157,16 @@
         </th>
       </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-incident>
+    <ng-template pTemplate="body" let-patient>
       <tr>
-        <td style="min-width: 80px">{{ incident.incidentNb }}</td>
-        <td style="min-width: 150px">{{ incident.sourcePost }}</td>
-        <td style="min-width: 100px">{{ incident.voltage }} KV</td>
-        <td style="min-width: 150px">{{ incident.departure }}</td>
-        <td style="min-width: 80px">{{ incident.aSType }}</td>
-        <td style="min-width: 175px">{{ incident.incidentType }}</td>
-        <td style="min-width: 150px">{{ incident.startDatetime }}</td>
-        <td style="min-width: 150px">{{ incident.firstRecoveryDatetime }}</td>
-        <td style="min-width: 150px">{{ incident.endDatetime }}</td>
-        <td style="min-width: 125px">{{ incident.cutOff }} A</td>
-        <td style="min-width: 125px">{{ incident.recovery }} A</td>
-        <td style="min-width: 150px">{{ incident.section }}</td>
-        <td style="min-width: 250px">{{ incident.observations }}</td>
+        <td style="min-width: 110px">{{ patient.patientId }}</td>
+        <td style="min-width: 150px">{{ patient.lastname }}</td>
+        <td style="min-width: 150px">{{ patient.firstname }}</td>
+        <td style="min-width: 150px">{{ patient.nicNb }}</td>
+        <td style="min-width: 150px">{{ patient.phoneNb }}</td>
+        <td style="min-width: 150px">{{ patient.birthday }}</td>
+        <td style="min-width: 150px">{{ patient.addday }}</td>
+        <td style="min-width: 200px">{{ patient.parentName }}</td>
 
         <td
           style="
@@ -194,7 +184,7 @@
             pRipple
             icon="pi pi-pencil"
             class="edit-icon p-button-help p-button-text"
-            (click)="handleEdit(incident.incidentNb)"
+            (click)="handleEdit(patient.patientNb)"
           ></button>
 
           <button
@@ -202,20 +192,20 @@
             pRipple
             icon="pi pi-trash"
             class="edit-icon p-button-help p-button-text"
-            (click)="handleDelete($event, incident.incidentNb)"
+            (click)="handleDelete($event, patient.patientId, patient.patientNb)"
           ></button>
         </td>
       </tr>
     </ng-template>
   </p-table>
-  <p *ngIf="!filteredIncidents.length" ngClass="if-table-empty">
+  <p *ngIf="!filteredPatients.length" ngClass="if-table-empty">
     Aucun enregistrement à afficher.
   </p>
 
   <div style="margin: 1rem 0">
     <p-paginator
-      [rows]="selectedNbPerPage === 'Tous' ? nbOfIncident : +selectedNbPerPage"
-      [totalRecords]="nbOfIncident"
+      [rows]="selectedNbPerPage === 'Tous' ? nbOfPatients : +selectedNbPerPage"
+      [totalRecords]="nbOfPatients"
       (onPageChange)="paginate($event)"
       [pageLinkSize]="3"
       [showCurrentPageReport]="false"
